@@ -1,4 +1,4 @@
-name: deploy
+name: create infrastructure
 
 on:
   repository_dispatch:

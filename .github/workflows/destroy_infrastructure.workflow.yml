@@ -1,4 +1,4 @@
-name: destroy
+name: destroy infrastructure
 
 on:
   repository_dispatch:
