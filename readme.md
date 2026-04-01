@@ -10,41 +10,23 @@ A Minecraft server hosted on Google Cloud Platform, managed via Terraform and Gi
 
 ## Architecture
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                     Google Cloud Platform                    │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│   ┌──────────────────────────────────────────────────────┐  │
-│   │              VPC: minecraft-aria-network              │  │
-│   │                                                       │  │
-│   │   ┌───────────────────────────────────────────────┐  │  │
-│   │   │       Compute Instance (Spot/Preemptible)     │  │  │
-│   │   │                                               │  │  │
-│   │   │   ┌───────────────────────────────────────┐  │  │  │
-│   │   │   │  Docker: itzg/minecraft-server        │  │  │  │
-│   │   │   │  - Fabric 1.20.1                      │  │  │  │
-│   │   │   │  - 28 GB RAM                          │  │  │  │
-│   │   │   │  - Auto-stop on idle                  │  │  │  │
-│   │   │   └───────────────────────────────────────┘  │  │  │
-│   │   │                                               │  │  │
-│   │   │   Boot Disk (10 GB)  +  Data Disk (persistent)│  │  │
-│   │   └───────────────────────────────────────────────┘  │  │
-│   └──────────────────────────────────────────────────────┘  │
-│                                                              │
-│   ┌──────────────────┐   ┌──────────────────────────────┐   │
-│   │  Cloud Run       │   │  GCS Bucket                  │   │
-│   │  (AriA Panel)    │   │  (Terraform state)           │   │
-│   └──────────────────┘   └──────────────────────────────┘   │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              │ Port 25565
-                              ▼
-                    ┌─────────────────┐
-                    │  Minecraft      │
-                    │  Players        │
-                    └─────────────────┘
+```mermaid
+graph TD
+    subgraph GCP[Google Cloud Platform]
+        subgraph VPC["VPC: minecraft-aria-network"]
+            subgraph VM["Compute Instance (Spot/Preemptible)"]
+                Docker["Docker: itzg/minecraft-server<br/>- Fabric 1.20.1<br/>- 28 GB RAM<br/>- Auto-stop on idle"]
+                Disks["Boot Disk (10 GB) + Data Disk (persistent)"]
+            end
+        end
+        
+        Panel["Cloud Run (AriA Panel)"]
+        Bucket["GCS Bucket (Terraform state)"]
+    end
+    
+    Players["Minecraft Players"]
+    
+    Players -- "Port 25565" --> VM
 ```
 
 ---

@@ -61,10 +61,5 @@ echo "Waiting for Minecraft server to start..."
 sleep 45s
 echo "Minecraft server should be ready!"
 
-# Send the IP address to the Telegram group
-nohup bash /opt/scripts/send_ip_address.sh </dev/null &>/dev/null &
-
-sleep 240s
-
-# Auto-destroy when CPU usage is low
-nohup bash /opt/scripts/auto_destroy.sh </dev/null &>/dev/null &
+# Removed send_ip_address.sh call due to sensitive variables
+# Removed auto_destroy.sh call due to sensitive variables
