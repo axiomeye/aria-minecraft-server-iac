@@ -20,7 +20,7 @@ permissions:
   id-token: write
 
 env:
-  IMAGE: ghcr.io/axiomeye/minecraft-frontend
+  IMAGE: axiomeye/minecraft-frontend
 
 jobs:
   deploy:

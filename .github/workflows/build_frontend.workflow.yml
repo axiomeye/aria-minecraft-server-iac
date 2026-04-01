@@ -13,37 +13,28 @@ concurrency:
 
 permissions:
   contents: read
-  packages: write
 
 env:
-  IMAGE: ghcr.io/axiomeye/minecraft-frontend
+  IMAGE: axiomeye/minecraft-frontend
 
 jobs:
   build:
     name: "Build & Push"
     runs-on: ubuntu-24.04
+    environment: aria-production
 
     steps:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
-      - name: Log in to GitHub Container Registry
+      - name: Log in to Docker Hub
         uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push image
         run: |
           docker build -t "$IMAGE:${{ github.sha }}" -t "$IMAGE:latest" ./frontend
           docker push "$IMAGE:${{ github.sha }}"
           docker push "$IMAGE:latest"
-
-      - name: Make container image public
-        continue-on-error: true
-        run: |
-          gh api --method PATCH /user/packages/container/minecraft-frontend \
-            -f visibility=public
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
