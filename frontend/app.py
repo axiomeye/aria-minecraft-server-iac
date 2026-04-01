@@ -1,3 +1,4 @@
+import logging
 import os
 import random
 import time
@@ -10,61 +11,11 @@ from flask import Flask, jsonify, redirect, render_template, session, url_for
 from werkzeug.middleware.proxy_fix import ProxyFix
 from google.cloud import compute_v1
 
-PHRASES = [
-    "Do not believe Mr Elon",
-    "BASATO KING",
-    "Cose da gamer",
-    "now do classical gas",
-    "TO THE MOOOOOOOON!",
-    "Oh, mansui...",
-    "I can't believe it's not Terraria",
-    "PLAY TERRARRIA",
-    "Cubic bliss...",
-    "Pixel paradise...",
-    "It's square time!",
-    "Square up!",
-    "Why is it always Minecraft?",
-    "Everybody gangsta until I pop in with the Snowmen Liberation Army.",
-    "Cubic!",
-    "Stop leaving crafting tables around!",
-    "Reuse your crafting tables!",
-    "Memo: chicken farm far from the house.",
-    "Rip DukeP00l...",
-    "Reanimating Herobrine...",
-    "Knitting sheeps...",
-    "The Elden Eye always watches (o)",
-    "d(0w0)b",
-    "You're gonna gurgle mayonaise!",
-    "Bust this mamajam!",
-    "Minecraft is the only game you need.",
-    "Tfarcenim yalp",
-    "Minecraft dies at the end.",
-    "Elden Ring is basically a Minecraftlike.",
-    "Why not just play Terraria at this point?",
-    "Why playing minecraft when Terraria is around?",
-    "I mean who even cares about 3D anymore?",
-    "Why is everyone so obsessed with 3D???",
-    "We don't talk about Dragons here...",
-    "That fucking Ice Dragon killed my cat!",
-    "Ice and Fire was a mistake...",
-    "NOT THE SIRENS AGAIN LET ME GO",
-    "Michelangelo!",
-    "Oh you don't have the right",
-    "Glabella Sandwich edition",
-    "KASE!",
-    "Soreto you wanna be my friend?",
-    "Chamber of infinite bullshit",
-    "Now without lettuce",
-    "MOOOOOOOOOOOOOOOOOOOOOOOOON",
-    "Space Australia release",
-    "Happy hour edition",
-    "Home of the funky Gallo",
-    "Oh, the misery!",
-    "Bake bread, fuck bitches, repeat",
-    "Prossima Arrokoth Annaloro",
-    "Try finger but hole",
-    "Jump required ahead",
-]
+from pathlib import Path
+
+_phrases_file = Path(__file__).parent / "phrases.txt"
+PHRASES = [l.strip() for l in _phrases_file.read_text().splitlines() if l.strip()]
+
 
 PROJECT = os.environ["GCP_PROJECT"]
 ZONE = os.environ["GCP_ZONE"]
@@ -126,17 +77,23 @@ def get_installation_token():
         headers={"Authorization": f"Bearer {app_jwt}", "Accept": "application/vnd.github+json"},
         timeout=10,
     )
+    if not resp.ok:
+        logging.error("GitHub token exchange failed: %s %s", resp.status_code, resp.text)
+        resp.raise_for_status()
     return resp.json()["token"]
 
 
 def trigger(event_type):
     token = get_installation_token()
-    requests.post(
+    resp = requests.post(
         f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/dispatches",
         headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"},
         json={"event_type": event_type},
         timeout=10,
     )
+    if not resp.ok:
+        logging.error("GitHub dispatch failed: %s %s", resp.status_code, resp.text)
+        resp.raise_for_status()
 
 
 @app.get("/")
