@@ -49,30 +49,59 @@ jobs:
         uses: google-github-actions/setup-gcloud@e427ad8a34f8676edf47cf7d7925499adf3eb74f # v2.2.1
 
       - name: Write env vars file
+        env:
+          FLASK_SECRET_KEY: ${{ secrets.FRONTEND_FLASK_SECRET }}
+          GOOGLE_CLIENT_ID: ${{ secrets.FRONTEND_OAUTH_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.FRONTEND_OAUTH_CLIENT_SECRET }}
+          GH_APP_ID: ${{ secrets.GH_APP_ID }}
+          GH_APP_INSTALLATION_ID: ${{ secrets.GH_APP_INSTALLATION_ID }}
+          GH_APP_PRIVATE_KEY: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          ALLOWED_EMAILS: ${{ vars.FRONTEND_ALLOWED_EMAILS }}
+          ZONE: ${{ vars.ZONE }}
+          INSTANCE_NAME: ${{ vars.INSTANCE_NAME }}
         run: |
-          cat > /tmp/envvars.yaml << 'EOF'
-          GCP_PROJECT: "reflected-gamma-341201"
-          GCP_ZONE: "${{ vars.ZONE }}"
-          INSTANCE_NAME: "${{ vars.INSTANCE_NAME }}"
-          GITHUB_REPO_OWNER: "axiomeye"
-          GITHUB_REPO_NAME: "aria-minecraft-server-iac"
-          OAUTH_REDIRECT_URI: "https://minecraft-frontend-972697371927.europe-west8.run.app/auth/callback"
-          ALLOWED_EMAILS: "${{ vars.FRONTEND_ALLOWED_EMAILS }}"
-          FLASK_SECRET_KEY: "${{ secrets.FRONTEND_FLASK_SECRET }}"
-          GOOGLE_CLIENT_ID: "${{ secrets.FRONTEND_OAUTH_CLIENT_ID }}"
-          GOOGLE_CLIENT_SECRET: "${{ secrets.FRONTEND_OAUTH_CLIENT_SECRET }}"
-          GH_APP_ID: "${{ secrets.GH_APP_ID }}"
-          GH_APP_INSTALLATION_ID: "${{ secrets.GH_APP_INSTALLATION_ID }}"
-          GH_APP_PRIVATE_KEY: "${{ secrets.GH_APP_PRIVATE_KEY }}"
-          EOF
+          python3 - <<'PYEOF'
+          import os
+
+          def yaml_value(v):
+              if '\n' in v:
+                  indented = v.replace('\n', '\n  ')
+                  return f"|\n  {indented}"
+              escaped = v.replace('"', '\\"')
+              return f'"{escaped}"'
+
+          env_vars = {
+              "GCP_PROJECT": "reflected-gamma-341201",
+              "GCP_ZONE": os.environ["ZONE"],
+              "INSTANCE_NAME": os.environ["INSTANCE_NAME"],
+              "GITHUB_REPO_OWNER": "axiomeye",
+              "GITHUB_REPO_NAME": "aria-minecraft-server-iac",
+              "OAUTH_REDIRECT_URI": "https://aria-mc-server-972697371927.europe-west8.run.app/auth/callback",
+              "ALLOWED_EMAILS": os.environ["ALLOWED_EMAILS"],
+              "FLASK_SECRET_KEY": os.environ["FLASK_SECRET_KEY"],
+              "GOOGLE_CLIENT_ID": os.environ["GOOGLE_CLIENT_ID"],
+              "GOOGLE_CLIENT_SECRET": os.environ["GOOGLE_CLIENT_SECRET"],
+              "GH_APP_ID": os.environ["GH_APP_ID"],
+              "GH_APP_INSTALLATION_ID": os.environ["GH_APP_INSTALLATION_ID"],
+              "GH_APP_PRIVATE_KEY": os.environ["GH_APP_PRIVATE_KEY"],
+          }
+
+          lines = [f"{k}: {yaml_value(v)}" for k, v in env_vars.items()]
+          with open("/tmp/envvars.yaml", "w") as f:
+              f.write("\n".join(lines) + "\n")
+          PYEOF
 
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy minecraft-frontend \
+          gcloud run deploy aria-mc-server \
             --image="$IMAGE:${{ steps.tag.outputs.value }}" \
             --region="${{ vars.REGION }}" \
             --service-account="minecraft-frontend-sa@reflected-gamma-341201.iam.gserviceaccount.com" \
             --env-vars-file=/tmp/envvars.yaml \
+            --execution-environment=gen2 \
+            --cpu=1 \
+            --memory=512Mi \
+            --cpu-throttling \
             --min-instances=0 \
             --max-instances=1 \
             --allow-unauthenticated \

@@ -6,7 +6,7 @@ from functools import wraps
 import jwt
 import requests
 from authlib.integrations.flask_client import OAuth
-from flask import Flask, redirect, render_template, session, url_for
+from flask import Flask, jsonify, redirect, render_template, session, url_for
 from werkzeug.middleware.proxy_fix import ProxyFix
 from google.cloud import compute_v1
 
@@ -144,6 +144,13 @@ def trigger(event_type):
 def index():
     status, ip = server_status()
     return render_template("index.html", status=status, ip=ip, user=session["email"], phrase=random.choice(PHRASES))
+
+
+@app.get("/api/status")
+@require_login
+def api_status():
+    status, ip = server_status()
+    return jsonify({"status": status, "ip": ip})
 
 
 @app.get("/login")
