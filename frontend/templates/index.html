@@ -216,9 +216,6 @@
       <form method="post" action="/action/start">
         <button id="btn-start" class="btn-start" {% if status == 'running' %}disabled{% endif %}>Start</button>
       </form>
-      <form method="post" action="/action/stop">
-        <button id="btn-stop" class="btn-stop" {% if status != 'running' %}disabled{% endif %}>Stop</button>
-      </form>
     </div>
 
     <div class="footer">
@@ -239,7 +236,6 @@
       const pollTxt   = document.getElementById('poll-text');
       const progressEl = document.getElementById('progress-wrap');
       const startBtn  = document.getElementById('btn-start');
-      const stopBtn   = document.getElementById('btn-stop');
 
       let timer = null;
 
@@ -272,7 +268,6 @@
 
         // Buttons
         startBtn.disabled = (status === 'running');
-        stopBtn.disabled  = (status !== 'running');
 
         // Poll indicator
         const polling = needsPolling(status, ip);

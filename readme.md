@@ -1,40 +1,41 @@
 # Aria Minecraft Server IaC
 
-A Minecraft Server hosted on Google Cloud Platform using Terraform and GitHub Actions.
+A Minecraft server hosted on Google Cloud Platform, managed via Terraform and GitHub Actions. The server runs on a preemptible Spot VM that is created on demand and destroyed when idle, keeping costs minimal.
 
 ![Deploy](https://github.com/axiomeye/aria-minecraft-server-iac/actions/workflows/create_infrastructure.workflow.yml/badge.svg)
 ![Destroy](https://github.com/axiomeye/aria-minecraft-server-iac/actions/workflows/destroy_infrastructure.workflow.yml/badge.svg)
+![Frontend](https://github.com/axiomeye/aria-minecraft-server-iac/actions/workflows/deploy_frontend.workflow.yml/badge.svg)
 
-## 🏗️ Architecture
+---
+
+## Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                     Google Cloud Platform                    │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │              VPC: minecraft-aria-network             │   │
-│   │                                                      │   │
-│   │   ┌──────────────────────────────────────────────┐  │   │
-│   │   │     Compute Instance (Spot/Preemptible)      │  │   │
-│   │   │                                              │  │   │
-│   │   │   ┌──────────────────────────────────────┐   │  │   │
-│   │   │   │  Docker: itzg/minecraft-server       │   │  │   │
-│   │   │   │  - Fabric 1.20.1                     │   │  │   │
-│   │   │   │  - 28GB RAM                          │   │  │   │
-│   │   │   │  - Auto-stop on idle                 │   │  │   │
-│   │   │   └──────────────────────────────────────┘   │  │   │
-│   │   │                                              │  │   │
-│   │   │   Boot Disk (10GB)    Data Disk (Persistent) │  │   │
-│   │   └──────────────────────────────────────────────┘  │   │
-│   │                                                      │   │
-│   └─────────────────────────────────────────────────────┘   │
+│   ┌──────────────────────────────────────────────────────┐  │
+│   │              VPC: minecraft-aria-network              │  │
+│   │                                                       │  │
+│   │   ┌───────────────────────────────────────────────┐  │  │
+│   │   │       Compute Instance (Spot/Preemptible)     │  │  │
+│   │   │                                               │  │  │
+│   │   │   ┌───────────────────────────────────────┐  │  │  │
+│   │   │   │  Docker: itzg/minecraft-server        │  │  │  │
+│   │   │   │  - Fabric 1.20.1                      │  │  │  │
+│   │   │   │  - 28 GB RAM                          │  │  │  │
+│   │   │   │  - Auto-stop on idle                  │  │  │  │
+│   │   │   └───────────────────────────────────────┘  │  │  │
+│   │   │                                               │  │  │
+│   │   │   Boot Disk (10 GB)  +  Data Disk (persistent)│  │  │
+│   │   └───────────────────────────────────────────────┘  │  │
+│   └──────────────────────────────────────────────────────┘  │
 │                                                              │
-│   ┌─────────────────┐    ┌─────────────────────────────┐    │
-│   │  GCS Bucket     │    │  Cloud Ops Agent            │    │
-│   │  (Terraform     │    │  (Monitoring & Logging)     │    │
-│   │   State)        │    │                             │    │
-│   └─────────────────┘    └─────────────────────────────┘    │
+│   ┌──────────────────┐   ┌──────────────────────────────┐   │
+│   │  Cloud Run       │   │  GCS Bucket                  │   │
+│   │  (AriA Panel)    │   │  (Terraform state)           │   │
+│   └──────────────────┘   └──────────────────────────────┘   │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
                               │
@@ -46,142 +47,129 @@ A Minecraft Server hosted on Google Cloud Platform using Terraform and GitHub Ac
                     └─────────────────┘
 ```
 
-## 📋 Features
+---
 
-- **Cost-Optimized**: Uses Spot/Preemptible VMs for significant cost savings
-- **Auto-Stop**: Server automatically stops when idle to save costs
-- **Auto-Destroy**: Infrastructure is destroyed when CPU usage is low
-- **Persistent Data**: World data is stored on a separate persistent disk
-- **Telegram Notifications**: Server status updates sent to Telegram
-- **Fabric Mod Support**: Ready for Fabric mods (1.20.1)
+## Features
 
-## 🚀 Quick Start
+- **Cost-optimized** — Uses Spot/Preemptible VMs for significant cost savings
+- **Auto-stop** — Server shuts down automatically when no players are online
+- **Auto-destroy** — Infrastructure is torn down when CPU usage drops below threshold
+- **Persistent world data** — World stored on a separate persistent disk, survives VM deletion
+- **AriA Panel** — Private Cloud Run web app for starting the server and monitoring its IP
+- **Telegram notifications** — Server status updates sent to the group chat
+- **Fabric mod support** — Pre-configured for Fabric 1.20.1
 
-### Prerequisites
+---
 
-1. A Google Cloud Platform project
-2. A GCS bucket for Terraform state
-3. A service account with appropriate permissions
-4. Telegram bot and chat for notifications
-5. GitHub repository with Actions enabled
-
-### Required GitHub Secrets
-
-| Secret | Description |
-|--------|-------------|
-| `PROJECT_NAME` | GCP project ID |
-| `GCP_BUCKET` | GCS bucket name for Terraform state |
-| `GCP_SA_EMAIL` | Service account email |
-| `GCP_SA_KEY` | Service account JSON key (base64 encoded) |
-| `TELEGRAM_TO` | Telegram chat ID |
-| `TELEGRAM_TOKEN` | Telegram bot token |
-
-### Required GitHub Variables
-
-| Variable | Description |
-|----------|-------------|
-| `REGION` | GCP region (e.g., `europe-west8`) |
-| `ZONE` | GCP zone (e.g., `europe-west8-a`) |
-| `INSTANCE_NAME` | Name for the compute instance |
-| `CREATE_MESSAGE` | Message sent when creating infrastructure |
-| `BEGIN_DESTROY_MESSAGE` | Message sent when starting destroy |
-| `DESTROY_MESSAGE` | Message sent when destroy completes |
-
-## 🎮 How to Use
-
-### Start the Server
-
-Trigger the `create-infr` repository dispatch event:
-
-```bash
-curl -X POST \
-  -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer YOUR_GITHUB_TOKEN" \
-  https://api.github.com/repos/OWNER/REPO/dispatches \
-  -d '{"event_type":"create-infr"}'
-```
-
-### Get Server IP
-
-Trigger the `send-ip-address` repository dispatch event:
-
-```bash
-curl -X POST \
-  -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer YOUR_GITHUB_TOKEN" \
-  https://api.github.com/repos/OWNER/REPO/dispatches \
-  -d '{"event_type":"send-ip-address"}'
-```
-
-### Stop the Server
-
-Trigger the `destroy-infr` repository dispatch event:
-
-```bash
-curl -X POST \
-  -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer YOUR_GITHUB_TOKEN" \
-  https://api.github.com/repos/OWNER/REPO/dispatches \
-  -d '{"event_type":"destroy-infr"}'
-```
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── .github/
 │   └── workflows/
-│       ├── create_infrastructure.workflow.yml   # Create server
-│       ├── destroy_infrastructure.workflow.yml  # Destroy server
-│       └── send_ip_address.workflow.yml         # Get server IP
+│       ├── build_frontend.workflow.yml       # Build and push Docker image for the panel
+│       ├── deploy_frontend.workflow.yml      # Deploy panel to Cloud Run
+│       ├── create_infrastructure.workflow.yml
+│       ├── destroy_infrastructure.workflow.yml
+│       └── send_ip_address.workflow.yml
+├── frontend/
+│   ├── app.py                  # Flask web panel (OAuth login, server controls)
+│   ├── templates/index.html    # Panel UI
+│   ├── requirements.txt
+│   └── Dockerfile
 ├── terraform/
-│   ├── backend.tf          # Provider and backend configuration
-│   ├── main.tf             # Compute instance resource
-│   ├── variables.tf        # Input variables
-│   ├── outputs.tf          # Output values
-│   ├── terraform.tfvars.example  # Example variable values
+│   ├── main.tf                 # Compute instance resource
+│   ├── variables.tf
+│   ├── outputs.tf
+│   ├── backend.tf
+│   ├── terraform.tfvars.example
 │   └── scripts/
-│       ├── config.sh       # Startup script
-│       └── shutdown.sh     # Shutdown script
+│       ├── config.sh           # Startup script (mounts disk, starts Docker)
+│       └── shutdown.sh
+├── wiki/                       # Source files mirrored to GitHub Wiki
 └── readme.md
 ```
 
-## 💰 Cost Estimation
+---
 
-This setup is designed to minimize costs:
+## Setup
 
-| Resource | Cost |
-|----------|------|
-| n2-highmem-4 (Spot) | ~$0.05/hour |
-| 10GB Boot Disk | ~$0.80/month |
-| Data Disk | Varies by size |
-| Network Egress | Pay per use |
+### Prerequisites
 
-**Tip**: The auto-destroy feature helps minimize costs by shutting down when not in use.
+1. A Google Cloud Platform project
+2. A GCS bucket for Terraform remote state
+3. A service account with Compute, Storage, and Cloud Run permissions
+4. A Telegram bot and chat ID for notifications
+5. A GitHub App for triggering repository dispatch events
+6. A Google OAuth 2.0 Client ID for the AriA Panel
 
-## 🔧 Configuration
+### GitHub Environment (`aria-production`) — Secrets
 
-See `terraform/terraform.tfvars.example` for all available configuration options.
+| Secret | Description |
+|--------|-------------|
+| `FRONTEND_OAUTH_CLIENT_ID` | Google OAuth 2.0 Client ID |
+| `FRONTEND_OAUTH_CLIENT_SECRET` | Google OAuth 2.0 Client Secret |
+| `FRONTEND_FLASK_SECRET` | Random secret key for Flask sessions |
+| `GH_APP_ID` | GitHub App ID |
+| `GH_APP_INSTALLATION_ID` | GitHub App Installation ID |
+| `GH_APP_PRIVATE_KEY` | GitHub App RSA private key (PEM) |
+| `DOCKERHUB_USERNAME` | Docker Hub username for image push |
+| `DOCKERHUB_TOKEN` | Docker Hub access token |
 
-### Customizing the Server
+### GitHub Environment (`aria-production`) — Variables
 
-Edit `terraform/scripts/config.sh` to customize:
-- Minecraft version
-- Memory allocation
-- Mod loading
-- Server properties
+| Variable | Description |
+|----------|-------------|
+| `REGION` | GCP region (e.g. `europe-west8`) |
+| `ZONE` | GCP zone (e.g. `europe-west8-a`) |
+| `INSTANCE_NAME` | Compute instance name |
+| `FRONTEND_ALLOWED_EMAILS` | Comma-separated list of emails allowed to log into the panel |
+| `WORKLOAD_IDENTITY_PROVIDER` | Workload identity provider for keyless auth |
+| `GCP_SERVICE_ACCOUNT` | Service account email for GitHub Actions |
 
-## 🛠️ Troubleshooting
+---
 
-### Server Won't Start
-1. Check the startup script logs in Cloud Console
-2. Verify the data disk is properly attached
-3. Check Docker container logs: `docker logs mc`
+## How It Works
 
-### Can't Connect
-1. Verify firewall rules allow port 25565
-2. Check if the server is healthy: `docker inspect mc`
-3. Ensure the IP address is correct (may change on recreate)
+### Starting the server
 
-## 📄 License
+Log into the [AriA Panel](https://aria-mc-server-972697371927.europe-west8.run.app) and click **Start**. This triggers the `create-infr` repository dispatch event via the GitHub App, which runs the Terraform workflow to provision the VM.
 
-This project is open source. Feel free to use and modify as needed.
+### Server IP
+
+The panel polls the GCE instance every 10 seconds and displays the IP address as soon as it is assigned.
+
+### Stopping the server
+
+The server shuts itself down automatically when no players are connected. The VM is then destroyed by the idle-detection workflow to avoid idle costs.
+
+---
+
+## Cost Estimate
+
+| Resource | Approx. cost |
+|----------|-------------|
+| n2-highmem-4 (Spot) | ~$0.05 / hour |
+| 10 GB boot disk | ~$0.80 / month |
+| Persistent data disk | varies by size |
+| Cloud Run panel (scale-to-zero) | near $0 |
+| Network egress | pay per use |
+
+---
+
+## Troubleshooting
+
+**Server won't start**
+- Check the startup script logs in Cloud Logging
+- Verify the data disk is attached to the instance
+- Inspect Docker logs on the VM: `docker logs mc`
+
+**Can't connect**
+- Confirm firewall rules allow TCP port 25565
+- Check that the IP shown in the panel is current — it changes on each VM creation
+- Verify the Minecraft client is on version 1.20.1 with Fabric loaded
+
+---
+
+## License
+
+Open source. Use and modify freely.
