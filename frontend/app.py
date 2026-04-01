@@ -96,18 +96,43 @@ def trigger(event_type):
         resp.raise_for_status()
 
 
+def get_workflow_status():
+    try:
+        token = get_installation_token()
+        resp = requests.get(
+            f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/actions/runs?event=repository_dispatch&per_page=1",
+            headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"},
+            timeout=10,
+        )
+        if not resp.ok:
+            return None
+        runs = resp.json().get("workflow_runs", [])
+        if not runs:
+            return None
+        return {
+            "status": runs[0].get("status"),
+            "conclusion": runs[0].get("conclusion"),
+            "html_url": runs[0].get("html_url")
+        }
+    except Exception as e:
+        logging.error("Failed to get workflow status: %s", getattr(e, "message", str(e)))
+        return None
+
+
 @app.get("/")
 @require_login
 def index():
     status, ip = server_status()
-    return render_template("index.html", status=status, ip=ip, user=session["email"], phrase=random.choice(PHRASES))
+    workflow = get_workflow_status() if status != 'running' else None
+    return render_template("index.html", status=status, ip=ip, user=session["email"], phrase=random.choice(PHRASES), workflow=workflow)
 
 
 @app.get("/api/status")
 @require_login
 def api_status():
     status, ip = server_status()
-    return jsonify({"status": status, "ip": ip})
+    workflow = get_workflow_status() if status != 'running' else None
+    return jsonify({"status": status, "ip": ip, "workflow": workflow})
 
 
 @app.get("/login")

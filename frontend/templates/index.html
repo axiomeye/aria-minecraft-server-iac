@@ -158,6 +158,19 @@
       100% { transform: translateX(100%)  scaleX(0.4); }
     }
 
+    /* ── Workflow Status ── */
+    .workflow-status {
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      color: #5b73a0;
+      margin-top: -1rem;
+      margin-bottom: 1.3rem;
+      display: none;
+    }
+    .workflow-status.visible { display: block; }
+    .workflow-status a { color: #8ba5d2; text-decoration: none; text-transform: capitalize; }
+    .workflow-status a:hover { text-decoration: underline; }
+
     /* ── Buttons ── */
     .buttons { display: flex; gap: 0.75rem; justify-content: center; margin-bottom: 1.75rem; }
     button {
@@ -174,7 +187,6 @@
     button:active:not(:disabled) { transform: translateY(0); }
     button:disabled { opacity: 0.28; cursor: default; }
     .btn-start { background: linear-gradient(135deg, #2563eb, #3b82f6); color: #fff; }
-    .btn-stop  { background: linear-gradient(135deg, #dc2626, #ef4444); color: #fff; }
 
     /* ── Footer ── */
     .footer { font-size: 0.7rem; color: #2d3752; }
@@ -198,6 +210,12 @@
     <!-- indeterminate bar while server is spinning up -->
     <div id="progress-wrap" class="progress-wrap {% if status in ('staging', 'provisioning', 'repairing') %}visible{% endif %}">
       <div class="progress-bar"></div>
+    </div>
+    
+    <div id="workflow-status" class="workflow-status {% if workflow %}visible{% endif %}">
+      Infrastructure run: <a href="{{ workflow.html_url if workflow else '#' }}" target="_blank" id="workflow-link">
+        <span id="workflow-text">{{ workflow.conclusion if workflow and workflow.status == 'completed' else (workflow.status | replace('_', ' ') if workflow else '') }}</span>
+      </a>
     </div>
 
     <div class="ip-block">
@@ -236,6 +254,9 @@
       const pollTxt   = document.getElementById('poll-text');
       const progressEl = document.getElementById('progress-wrap');
       const startBtn  = document.getElementById('btn-start');
+      const wfStatus  = document.getElementById('workflow-status');
+      const wfLink    = document.getElementById('workflow-link');
+      const wfText    = document.getElementById('workflow-text');
 
       let timer = null;
 
@@ -243,7 +264,7 @@
         return !ip || status !== 'running';
       }
 
-      function applyStatus(status, ip) {
+      function applyStatus(status, ip, workflow) {
         // Badge class
         const cls = status === 'running' ? 'running'
                   : TRANSITIONAL.has(status) ? 'staging'
@@ -266,6 +287,16 @@
           ipEl.classList.add('pending');
         }
 
+        // Workflow Status
+        if (workflow) {
+          wfStatus.classList.add('visible');
+          wfLink.href = workflow.html_url || '#';
+          wfText.textContent = (workflow.status === 'completed' ? workflow.conclusion : workflow.status) || '';
+          wfText.textContent = wfText.textContent.replace(/_/g, ' ');
+        } else {
+          wfStatus.classList.remove('visible');
+        }
+
         // Buttons
         startBtn.disabled = (status === 'running');
 
@@ -283,7 +314,7 @@
           })
           .then(data => {
             if (!data) return;
-            applyStatus(data.status, data.ip);
+            applyStatus(data.status, data.ip, data.workflow);
             if (needsPolling(data.status, data.ip)) scheduleNext();
             else stopPolling();
           })
