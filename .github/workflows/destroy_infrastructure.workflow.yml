@@ -62,7 +62,7 @@ jobs:
         run: |
           terraform init -upgrade \
             -backend-config="bucket=${{ secrets.GCP_BUCKET }}" \
-            -backend-config="prefix=terraform-state"
+            -backend-config="prefix=terraform-states/vm"
 
       - name: Terraform Destroy
         working-directory: ./terraform/vm
