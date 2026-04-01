@@ -69,6 +69,7 @@ PHRASES = [
 PROJECT = os.environ["GCP_PROJECT"]
 ZONE = os.environ["GCP_ZONE"]
 INSTANCE_NAME = os.environ["INSTANCE_NAME"]
+OAUTH_REDIRECT_URI = os.environ.get("OAUTH_REDIRECT_URI")
 REPO_OWNER = os.environ.get("GITHUB_REPO_OWNER", "axiomeye")
 REPO_NAME = os.environ.get("GITHUB_REPO_NAME", "aria-minecraft-server-iac")
 GH_APP_ID = os.environ["GH_APP_ID"]
@@ -147,7 +148,8 @@ def index():
 
 @app.get("/login")
 def login():
-    return oauth.google.authorize_redirect(url_for("callback", _external=True))
+    redirect_uri = OAUTH_REDIRECT_URI or url_for("callback", _external=True)
+    return oauth.google.authorize_redirect(redirect_uri)
 
 
 @app.get("/auth/callback")

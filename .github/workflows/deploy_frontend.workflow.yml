@@ -56,6 +56,7 @@ jobs:
           INSTANCE_NAME: "${{ vars.INSTANCE_NAME }}"
           GITHUB_REPO_OWNER: "axiomeye"
           GITHUB_REPO_NAME: "aria-minecraft-server-iac"
+          OAUTH_REDIRECT_URI: "https://minecraft-frontend-972697371927.europe-west8.run.app/auth/callback"
           ALLOWED_EMAILS: "${{ vars.FRONTEND_ALLOWED_EMAILS }}"
           FLASK_SECRET_KEY: "${{ secrets.FRONTEND_FLASK_SECRET }}"
           GOOGLE_CLIENT_ID: "${{ secrets.FRONTEND_OAUTH_CLIENT_ID }}"
