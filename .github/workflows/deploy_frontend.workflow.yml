@@ -36,8 +36,12 @@ jobs:
       - name: Resolve image tag
         id: tag
         run: |
-          INPUT="${{ github.event.inputs.image_tag }}"
-          echo "value=${INPUT:-latest}" >> "$GITHUB_OUTPUT"
+          if [ "${{ github.event_name }}" == "workflow_run" ]; then
+            echo "value=${{ github.event.workflow_run.head_sha }}" >> "$GITHUB_OUTPUT"
+          else
+            INPUT="${{ github.event.inputs.image_tag }}"
+            echo "value=${INPUT:-latest}" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed # v2.1.13
