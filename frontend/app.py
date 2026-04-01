@@ -7,6 +7,7 @@ import jwt
 import requests
 from authlib.integrations.flask_client import OAuth
 from flask import Flask, redirect, render_template, session, url_for
+from werkzeug.middleware.proxy_fix import ProxyFix
 from google.cloud import compute_v1
 
 PHRASES = [
@@ -76,6 +77,7 @@ GH_APP_PRIVATE_KEY = os.environ["GH_APP_PRIVATE_KEY"]
 ALLOWED = {e.strip() for e in os.environ["ALLOWED_EMAILS"].split(",")}
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 app.secret_key = os.environ["FLASK_SECRET_KEY"]
 
 oauth = OAuth(app)
