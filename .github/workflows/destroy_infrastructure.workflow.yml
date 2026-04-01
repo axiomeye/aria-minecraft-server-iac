@@ -3,6 +3,7 @@ name: destroy infrastructure
 on:
   repository_dispatch:
     types: [destroy-infr]
+  workflow_dispatch:
 
 concurrency:
   group: destroy-infr
