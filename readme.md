@@ -2,8 +2,8 @@
 
 A Minecraft Server hosted on Google Cloud Platform using Terraform and GitHub Actions.
 
-![Deploy](https://github.com/eugenio-guarino/aria-minecraft-server-iac/actions/workflows/create_infrastructure.workflow.yml/badge.svg)
-![Destroy](https://github.com/eugenio-guarino/aria-minecraft-server-iac/actions/workflows/destroy_infrastructure.workflow.yml/badge.svg)
+![Deploy](https://github.com/axiomeye/aria-minecraft-server-iac/actions/workflows/create_infrastructure.workflow.yml/badge.svg)
+![Destroy](https://github.com/axiomeye/aria-minecraft-server-iac/actions/workflows/destroy_infrastructure.workflow.yml/badge.svg)
 
 ## 🏗️ Architecture
 

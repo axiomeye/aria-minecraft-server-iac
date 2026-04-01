@@ -1,0 +1,89 @@
+name: deploy frontend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/deploy_frontend.workflow.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-frontend
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+  packages: write
+
+jobs:
+  deploy:
+    name: "Build & Deploy"
+    runs-on: ubuntu-24.04
+    environment: aria-production
+
+    env:
+      IMAGE: ghcr.io/axiomeye/minecraft-frontend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        run: |
+          docker build -t "$IMAGE:${{ github.sha }}" -t "$IMAGE:latest" ./frontend
+          docker push "$IMAGE:${{ github.sha }}"
+          docker push "$IMAGE:latest"
+
+      - name: Make container image public
+        run: |
+          gh api --method PATCH /user/packages/container/minecraft-frontend \
+            -f visibility=public
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed # v2.1.13
+        with:
+          workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@e427ad8a34f8676edf47cf7d7925499adf3eb74f # v2.2.1
+
+      - name: Write env vars file
+        run: |
+          cat > /tmp/envvars.yaml << 'EOF'
+          GCP_PROJECT: "reflected-gamma-341201"
+          GCP_ZONE: "${{ vars.ZONE }}"
+          INSTANCE_NAME: "${{ vars.INSTANCE_NAME }}"
+          GITHUB_REPO_OWNER: "axiomeye"
+          GITHUB_REPO_NAME: "aria-minecraft-server-iac"
+          ALLOWED_EMAILS: "${{ vars.FRONTEND_ALLOWED_EMAILS }}"
+          FLASK_SECRET_KEY: "${{ secrets.FRONTEND_FLASK_SECRET }}"
+          GOOGLE_CLIENT_ID: "${{ secrets.FRONTEND_OAUTH_CLIENT_ID }}"
+          GOOGLE_CLIENT_SECRET: "${{ secrets.FRONTEND_OAUTH_CLIENT_SECRET }}"
+          GH_APP_ID: "${{ secrets.GH_APP_ID }}"
+          GH_APP_INSTALLATION_ID: "${{ secrets.GH_APP_INSTALLATION_ID }}"
+          GH_APP_PRIVATE_KEY: "${{ secrets.GH_APP_PRIVATE_KEY }}"
+          EOF
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy minecraft-frontend \
+            --image="$IMAGE:${{ github.sha }}" \
+            --region="${{ vars.REGION }}" \
+            --service-account="minecraft-frontend-sa@reflected-gamma-341201.iam.gserviceaccount.com" \
+            --env-vars-file=/tmp/envvars.yaml \
+            --min-instances=0 \
+            --max-instances=1 \
+            --allow-unauthenticated \
+            --quiet

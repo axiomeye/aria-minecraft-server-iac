@@ -21,6 +21,12 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+# Local frontend dev
+frontend/.env.local
+
+# Wiki subrepo
+aria-minecraft-server-iac.wiki/
+
 # Ignore tfvars files (may contain sensitive data)
 *.tfvars
 !*.tfvars.example

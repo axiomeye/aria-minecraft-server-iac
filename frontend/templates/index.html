@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aria Server</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0f0f1a;
+      color: #d0d0e0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background: #16213e;
+      border-radius: 14px;
+      padding: 2.25rem 2rem;
+      width: 340px;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+    h1 { font-size: 2.2rem; color: #7eb3ff; letter-spacing: 0.05em; }
+    .phrase {
+      font-family: 'Consolas', monospace;
+      font-size: 0.75rem;
+      color: #555;
+      margin: 0.2rem 0 1.75rem;
+      min-height: 1rem;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.35rem 1.1rem;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
+    .badge.running  { background: #1a3a22; color: #4caf50; }
+    .badge.stopped  { background: #3a1a1a; color: #ef5350; }
+    .badge.staging  { background: #2a2a1a; color: #ffc107; }
+    .ip {
+      font-family: 'Consolas', monospace;
+      font-size: 1.05rem;
+      color: #fff;
+      min-height: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+    .hint { font-size: 0.75rem; color: #444; margin-bottom: 1.75rem; }
+    .buttons { display: flex; gap: 0.75rem; justify-content: center; margin-bottom: 1.75rem; }
+    button {
+      padding: 0.6rem 1.6rem;
+      border: none;
+      border-radius: 7px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    button:hover:not(:disabled) { opacity: 0.82; }
+    button:disabled { opacity: 0.35; cursor: default; }
+    .btn-start { background: #2196f3; color: #fff; }
+    .btn-stop  { background: #f44336; color: #fff; }
+    .user  { font-size: 0.72rem; color: #444; margin-bottom: 0.4rem; }
+    .logout { font-size: 0.72rem; color: #444; text-decoration: none; }
+    .logout:hover { color: #777; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>AriA</h1>
+    <p class="phrase">{{ phrase }}</p>
+
+    {% set cls = 'running' if status == 'running' else ('staging' if status in ('staging', 'provisioning') else 'stopped') %}
+    <span class="badge {{ cls }}">{{ status | upper if status else 'UNKNOWN' }}</span>
+
+    <p class="ip">{{ ip ~ ':25565' if ip else '—' }}</p>
+    <p class="hint">Starting takes ~5 min. Check Telegram for updates.</p>
+
+    <div class="buttons">
+      <form method="post" action="/action/start">
+        <button class="btn-start" {% if status == 'running' %}disabled{% endif %}>Start</button>
+      </form>
+      <form method="post" action="/action/stop">
+        <button class="btn-stop" {% if status != 'running' %}disabled{% endif %}>Stop</button>
+      </form>
+    </div>
+
+    <p class="user">{{ user }}</p>
+    <a href="/logout" class="logout">log out</a>
+  </div>
+</body>
+</html>
