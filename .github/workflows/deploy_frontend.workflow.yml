@@ -44,6 +44,7 @@ jobs:
           docker push "$IMAGE:latest"
 
       - name: Make container image public
+        continue-on-error: true
         run: |
           gh api --method PATCH /user/packages/container/minecraft-frontend \
             -f visibility=public
