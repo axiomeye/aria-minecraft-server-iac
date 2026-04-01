@@ -49,19 +49,19 @@ jobs:
           terraform_version: "latest"
 
       - name: Terraform Init
-        working-directory: ./terraform
+        working-directory: ./terraform/vm
         run: |
           terraform init -upgrade \
             -backend-config="bucket=${{ secrets.GCP_BUCKET }}" \
             -backend-config="prefix=terraform-state"
 
       - name: Terraform Refresh
-        working-directory: ./terraform
+        working-directory: ./terraform/vm
         run: terraform apply -refresh-only -auto-approve
 
       - name: Get Terraform Output
         id: terraform
-        working-directory: ./terraform
+        working-directory: ./terraform/vm
         run: echo "instance_ip=$(terraform output -raw instance_ip)" >> $GITHUB_OUTPUT
 
       - name: Send telegram message

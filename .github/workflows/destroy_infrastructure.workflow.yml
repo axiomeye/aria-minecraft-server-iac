@@ -58,14 +58,14 @@ jobs:
           terraform_version: "latest"
 
       - name: Terraform Init
-        working-directory: ./terraform
+        working-directory: ./terraform/vm
         run: |
           terraform init -upgrade \
             -backend-config="bucket=${{ secrets.GCP_BUCKET }}" \
             -backend-config="prefix=terraform-state"
 
       - name: Terraform Destroy
-        working-directory: ./terraform
+        working-directory: ./terraform/vm
         # Target only the VM — frontend resources (Cloud Run SA, secrets, AR) are not destroyed
         run: terraform apply -destroy -auto-approve -target=google_compute_instance.aria_server
 
