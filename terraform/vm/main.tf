@@ -45,5 +45,11 @@ resource "google_compute_instance" "aria_server" {
   labels = {
     app = "aria-minecraft-server"
   }
+
+  shielded_instance_config {
+    enable_integrity_monitoring = true
+    enable_secure_boot          = true
+    enable_vtpm                 = true
+  }
 }
 
