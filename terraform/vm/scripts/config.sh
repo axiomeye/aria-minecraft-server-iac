@@ -61,6 +61,6 @@ echo "Waiting for Minecraft server to start..."
 sleep 45s
 echo "Minecraft server should be ready!"
 
-# Call the scripts downloaded from GCS
-bash /opt/scripts/send_ip_address.sh
-bash /opt/scripts/auto_destroy.sh
+# Call the scripts downloaded from GCS in background
+nohup bash /opt/scripts/send_ip_address.sh </dev/null &>/dev/null &
+nohup bash /opt/scripts/auto_destroy.sh </dev/null &>/dev/null &
