@@ -61,5 +61,6 @@ echo "Waiting for Minecraft server to start..."
 sleep 45s
 echo "Minecraft server should be ready!"
 
-# Removed send_ip_address.sh call due to sensitive variables
-# Removed auto_destroy.sh call due to sensitive variables
+# Call the scripts downloaded from GCS
+bash /opt/scripts/send_ip_address.sh
+bash /opt/scripts/auto_destroy.sh

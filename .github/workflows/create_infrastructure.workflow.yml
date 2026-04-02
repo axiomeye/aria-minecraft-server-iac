@@ -67,17 +67,3 @@ jobs:
         working-directory: ./terraform/vm
         run: terraform apply -auto-approve
 
-      - name: Get Terraform Output
-        id: get_ip
-        working-directory: ./terraform/vm
-        run: echo "instance_ip=$(terraform output -raw instance_ip)" >> $GITHUB_OUTPUT
-
-      - name: Send IP via Telegram
-        uses: appleboy/telegram-action@221e6b684967abe813051ee4a37dd61770a83ad3 # v1.0.1
-        with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: |
-            Server IP is ready: ${{ steps.get_ip.outputs.instance_ip }}:25565
-            (The server might take 4-5 minutes to fully finish booting up! ⛏️)
-
