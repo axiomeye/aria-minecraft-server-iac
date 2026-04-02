@@ -66,7 +66,6 @@ jobs:
 
       - name: Terraform Destroy
         working-directory: ./terraform/vm
-        # Target only the VM — frontend resources (Cloud Run SA, secrets, AR) are not destroyed
         run: terraform apply -destroy -auto-approve -target=google_compute_instance.aria_server
 
       - name: Send telegram message (completed)
