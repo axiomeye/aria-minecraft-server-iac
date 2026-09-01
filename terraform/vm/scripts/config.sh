@@ -15,8 +15,17 @@ mount -o discard,defaults /dev/disk/by-id/google-aria-data-disk /mnt/disks/aria-
 mkdir -p /opt/scripts
 gsutil -m cp -r gs://aria-minecraft-server/scripts/* /opt/scripts/
 
-# Synchronize mods (uncomment if needed)
-# gsutil -m rsync -d gs://aria-minecraft-server/mods /mnt/disks/aria-data-disk/mods
+# Synchronize mods from the versioned GCS mirror.
+# gs://aria-minecraft-server/mods/<MC_VERSION>/ is the source of truth for the mod
+# set; the matching inventory lives in mods/manifest-<MC_VERSION>.json in this repo.
+#
+# WARNING: never add -d (--delete-unmatched-destination-objects) to this command.
+# The previous version of this line was `gsutil -m rsync -d gs://aria-minecraft-server/mods
+# /mnt/disks/aria-data-disk/mods` -- that prefix held only 4 stale jars, so uncommenting
+# it would have deleted the other 71 mods from the persistent data disk.
+#
+# MODS_VERSION="1.20.1"
+# gcloud storage rsync "gs://aria-minecraft-server/mods/${MODS_VERSION}" /mnt/disks/aria-data-disk/mods
 
 # Upgrade system packages
 apt-get update
