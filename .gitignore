@@ -30,3 +30,5 @@ aria-minecraft-server-iac.wiki/
 # Ignore tfvars files (may contain sensitive data)
 *.tfvars
 !*.tfvars.example
+# Provider lock generated locally; CI runs terraform init -upgrade
+.terraform.lock.hcl

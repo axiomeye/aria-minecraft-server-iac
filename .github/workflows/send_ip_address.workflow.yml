@@ -5,7 +5,7 @@ on:
     types: [send-ip-address]
 
 concurrency:
-  group: send-ip-address
+  group: send-ip-address-${{ github.event.client_payload.world || 'classic' }}
   cancel-in-progress: false
 
 permissions:
@@ -19,16 +19,15 @@ jobs:
     environment: aria-production
 
     env:
+      WORLD: ${{ github.event.client_payload.world || 'classic' }}
+      TF_VAR_world: ${{ github.event.client_payload.world || 'classic' }}
       # Terraform variables (from environment)
       TF_VAR_region: ${{ vars.REGION }}
       TF_VAR_project_id: reflected-gamma-341201
       TF_VAR_zone: ${{ vars.ZONE }}
-      TF_VAR_instance_name: ${{ vars.INSTANCE_NAME }}
       TF_VAR_service_account: ${{ vars.GCP_VM_SERVICE_ACCOUNT }}
-      TF_VAR_machine_type: ${{ vars.MACHINE_TYPE }}
       TF_VAR_boot_image: ${{ vars.BOOT_IMAGE }}
       TF_VAR_boot_disk_size_gb: ${{ vars.BOOT_DISK_SIZE_GB }}
-      TF_VAR_data_disk_name: ${{ vars.DATA_DISK_NAME }}
       TF_VAR_network_name: ${{ vars.NETWORK_NAME }}
       TF_VAR_subnet_name: ${{ vars.SUBNET_NAME }}
 
@@ -53,7 +52,7 @@ jobs:
         run: |
           terraform init -upgrade \
             -backend-config="bucket=${{ secrets.GCP_BUCKET }}" \
-            -backend-config="prefix=terraform-states/vm"
+            -backend-config="prefix=terraform-states/vm/$WORLD"
 
       - name: Terraform Refresh
         working-directory: ./terraform/vm

@@ -1,0 +1,115 @@
+#!/bin/bash
+set -euo pipefail
+
+# Rendered per-world by Terraform from config.sh.tftpl. Do not edit the rendered
+# copy on the instance; edit the template.
+#
+# World: ${world}  (Minecraft ${mc_version}, ${memory} heap)
+
+# Redirect both stdout and stderr to a file
+exec >output.txt 2>&1
+
+# No interactive input at all
+export DEBIAN_FRONTEND=noninteractive
+
+MOUNT_POINT=/mnt/disks/aria-data-disk
+DEVICE=/dev/disk/by-id/google-${disk_device_name}
+
+# Wait for the attached data disk to appear
+for _ in $(seq 1 30); do
+  [ -e "$DEVICE" ] && break
+  sleep 2
+done
+if [ ! -e "$DEVICE" ]; then
+  echo "FATAL: data disk $DEVICE never appeared"
+  exit 1
+fi
+
+# Format ONLY if the disk has no filesystem. blkid exits non-zero on a raw
+# device; any existing filesystem (i.e. a populated world) makes this a no-op.
+# Never use -f / --force here.
+if ! blkid "$DEVICE" >/dev/null 2>&1; then
+  echo "No filesystem on $DEVICE - formatting ext4 (first boot of world '${world}')"
+  mkfs.ext4 -m 0 -E lazy_itable_init=0,lazy_journal_init=0,discard "$DEVICE"
+else
+  echo "Existing filesystem on $DEVICE - mounting as-is"
+fi
+
+mkdir -p "$MOUNT_POINT"
+mount -o discard,defaults "$DEVICE" "$MOUNT_POINT"
+chmod a+w "$MOUNT_POINT"
+df -h "$MOUNT_POINT"
+
+# Install helper scripts. These are inlined by Terraform from
+# scripts/vm/*.sh, so the repository is the only source of truth -- there is no
+# bucket copy to drift out of sync, and nothing to re-upload after an edit.
+# They hold no credentials; the dispatch token comes from Secret Manager.
+mkdir -p /opt/scripts
+
+cat > /opt/scripts/auto_destroy.sh <<'ARIA_EOF_AUTO_DESTROY'
+${auto_destroy_sh}
+ARIA_EOF_AUTO_DESTROY
+
+cat > /opt/scripts/send_ip_address.sh <<'ARIA_EOF_SEND_IP'
+${send_ip_address_sh}
+ARIA_EOF_SEND_IP
+
+chmod +x /opt/scripts/*.sh
+
+# Mods are supplied per-world:
+#   classic   - the frozen set already on the disk (mods/manifest-1.20.1.json)
+#   others    - packwiz, resolved by the container at boot from PACKWIZ_URL
+# Never rsync with -d against the mods directory; see git history for why.
+
+# Upgrade system packages
+apt-get update
+apt-get upgrade -y
+
+# Install general packages
+apt-get install -y git bc
+
+# Install Ops Agent
+curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh
+bash add-google-cloud-ops-agent-repo.sh --also-install
+rm add-google-cloud-ops-agent-repo.sh
+
+# Add Docker's official GPG key
+apt-get update
+apt-get install -y ca-certificates curl
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  tee /etc/apt/sources.list.d/docker.list > /dev/null
+apt-get update
+
+# Install docker packages
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Run Minecraft docker image
+PACKWIZ_ARGS=()
+if [ -n "${packwiz_url}" ]; then
+  PACKWIZ_ARGS=(-e "PACKWIZ_URL=${packwiz_url}")
+fi
+
+docker run --privileged -d -v "$MOUNT_POINT":/data \
+    -e TYPE=FABRIC -e MEMORY=${memory} -e DEBUG=true -e PVP=false \
+    -e ENABLE_AUTOSTOP=TRUE -e AUTOSTOP_TIMEOUT_EST=350 \
+    -e AUTOSTOP_TIMEOUT_INIT=600 -e ONLINE_MODE=false \
+    -e VERSION=${mc_version} \
+    "$${PACKWIZ_ARGS[@]}" \
+    -p 25565:25565 -e EULA=TRUE --name mc \
+    itzg/minecraft-server:${image_tag}
+
+# Wait for Minecraft server to start
+echo "Waiting for Minecraft server to start..."
+sleep 45s
+echo "Minecraft server should be ready!"
+
+# Call the scripts downloaded from GCS in background
+nohup bash /opt/scripts/send_ip_address.sh </dev/null &>/dev/null &
+nohup bash /opt/scripts/auto_destroy.sh </dev/null &>/dev/null &
