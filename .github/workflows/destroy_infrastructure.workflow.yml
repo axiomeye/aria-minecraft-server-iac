@@ -48,6 +48,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
+            🌍 World: ${{ env.WORLD }}
             ${{ vars.BEGIN_DESTROY_MESSAGE }}
 
       - name: Authenticate to Google Cloud
@@ -79,4 +80,5 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
+            🌍 World: ${{ env.WORLD }}
             ${{ vars.DESTROY_MESSAGE }}

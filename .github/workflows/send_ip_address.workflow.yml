@@ -68,4 +68,6 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: ${{ steps.terraform.outputs.instance_ip }}
+          message: |
+            🌍 ${{ env.WORLD }} is ready!
+            ${{ steps.terraform.outputs.instance_ip }}:25565
