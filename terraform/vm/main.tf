@@ -46,6 +46,7 @@ resource "google_compute_instance" "aria_server" {
     world = var.world
     startup-script = templatefile("${path.module}/scripts/config.sh.tftpl", {
       world            = var.world
+      server_name      = local.w.server_name
       mc_version       = local.w.mc_version
       memory           = local.w.memory
       image_tag        = local.w.image_tag
@@ -58,6 +59,7 @@ resource "google_compute_instance" "aria_server" {
       // scripts is safe and needs no escaping.
       auto_destroy_sh    = file("${path.module}/scripts/vm/auto_destroy.sh")
       send_ip_address_sh = file("${path.module}/scripts/vm/send_ip_address.sh")
+      welcome_message_sh = file("${path.module}/scripts/vm/welcome_message.sh")
     })
     shutdown-script = file("${path.module}/scripts/shutdown.sh")
   }

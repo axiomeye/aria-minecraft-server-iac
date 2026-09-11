@@ -28,6 +28,7 @@ locals {
       // mods/manifest-1.20.1.json. Deliberately NOT packwiz-managed: the
       // installer prunes mods/ and this disk holds the only copy.
       packwiz_url = ""
+      server_name = "AriA Classic"
     }
 
     cobblemon = {
@@ -49,6 +50,7 @@ locals {
       // host these: it has uniform access with public access prevention enforced,
       // and weakening that would expose the Terraform state and mod mirror too.
       packwiz_url = "https://axiomeye.github.io/aria-minecraft-server-iac/packs/cobblemon/pack.toml"
+      server_name = "AriA Pokémon"
     }
 
     latest = {
@@ -64,6 +66,7 @@ locals {
       image_tag    = "java21"
       jvm_flags    = "meowice"
       packwiz_url  = "https://axiomeye.github.io/aria-minecraft-server-iac/packs/latest/pack.toml"
+      server_name = "AriA Latest Minecraft"
     }
   }
 

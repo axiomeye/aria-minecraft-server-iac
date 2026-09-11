@@ -54,6 +54,10 @@ cat > /opt/scripts/send_ip_address.sh <<'ARIA_EOF_SEND_IP'
 ${send_ip_address_sh}
 ARIA_EOF_SEND_IP
 
+cat > /opt/scripts/welcome_message.sh <<'ARIA_EOF_WELCOME'
+${welcome_message_sh}
+ARIA_EOF_WELCOME
+
 chmod +x /opt/scripts/*.sh
 
 # Mods are supplied per-world:
@@ -111,7 +115,7 @@ docker run --privileged -d -v "$MOUNT_POINT":/data \
     -e TYPE=FABRIC -e MEMORY=${memory} -e DEBUG=true -e PVP=false \
     -e ENABLE_AUTOSTOP=TRUE -e AUTOSTOP_TIMEOUT_EST=350 \
     -e AUTOSTOP_TIMEOUT_INIT=600 -e ONLINE_MODE=false \
-    -e VERSION=${mc_version} \
+    -e VERSION=${mc_version} -e MOTD="Benvenuto in ${server_name}" \
     "$${PACKWIZ_ARGS[@]}" "$${JVM_FLAG_ARGS[@]}" \
     -p 25565:25565 -e EULA=TRUE --name mc \
     itzg/minecraft-server:${image_tag}
@@ -131,5 +135,6 @@ done
 echo "Server health after wait: $(docker inspect -f '{{.State.Health.Status}}' mc 2>/dev/null || echo unknown)"
 
 # Helper scripts, inlined above into /opt/scripts
+nohup bash /opt/scripts/welcome_message.sh "${server_name}" </dev/null &>/dev/null &
 nohup bash /opt/scripts/send_ip_address.sh </dev/null &>/dev/null &
 nohup bash /opt/scripts/auto_destroy.sh </dev/null &>/dev/null &
