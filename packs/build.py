@@ -8,7 +8,8 @@ to name top-level mods.
 import hashlib, json, os, sys, urllib.request, urllib.parse
 
 UA = {"User-Agent": "aria-minecraft-server-iac/1.0 (pack builder)"}
-OUT_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "packs")
+# Packs are written next to this script (packs/<world>/), not into a subdir.
+OUT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
 def api(path):

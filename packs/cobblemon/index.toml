@@ -1,6 +1,11 @@
 hash-format = "sha256"
 
 [[files]]
+file = "mods/accessories.pw.toml"
+hash = "5285ba249b00d0d12a3cd1f64a5536e7618770dee31d3d240f9d4345ef69f888"
+metafile = true
+
+[[files]]
 file = "mods/architectury-api.pw.toml"
 hash = "0fb3808193da9b587367337d12d202d7b006e2522637a6502913d66a84f8626f"
 metafile = true
@@ -28,6 +33,11 @@ metafile = true
 [[files]]
 file = "mods/cobblemon.pw.toml"
 hash = "fb8bc7cbb79744dcd9e0232a46db2da1e1cc69b0b08dd33b41978933db8ef3a0"
+metafile = true
+
+[[files]]
+file = "mods/cobblemon-mega-showdown.pw.toml"
+hash = "4249bcc16bb47e96e80dd5a88d41a43c3c25c157d34ee1be60c8a972ca68c5af"
 metafile = true
 
 [[files]]
@@ -98,6 +108,11 @@ metafile = true
 [[files]]
 file = "mods/lithium.pw.toml"
 hash = "e10e639f71700a67d7f9b9d747e1685f838d703dadd432464b54e31b26f4742b"
+metafile = true
+
+[[files]]
+file = "mods/owo-lib.pw.toml"
+hash = "60a3d23eb73106ecb6ba5a391d4539e3557cbd9b1f3611a2de08052155d78b3a"
 metafile = true
 
 [[files]]
