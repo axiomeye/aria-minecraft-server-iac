@@ -98,6 +98,7 @@ fi
 
 docker run --privileged -d -v "$MOUNT_POINT":/data \
     -e TYPE=FABRIC -e MEMORY=${memory} -e DEBUG=true -e PVP=false \
+    -e USE_AIKAR_FLAGS=true \
     -e ENABLE_AUTOSTOP=TRUE -e AUTOSTOP_TIMEOUT_EST=350 \
     -e AUTOSTOP_TIMEOUT_INIT=600 -e ONLINE_MODE=false \
     -e VERSION=${mc_version} \

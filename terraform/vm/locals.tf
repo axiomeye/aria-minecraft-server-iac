@@ -15,9 +15,12 @@ locals {
       instance_name = "aria-minecraft-server-instance"
       disk_name     = "aria-minecraft-server-data"
       machine_type  = "n2-highmem-4"
-      memory        = "28G"
-      mc_version    = "1.20.1"
-      image_tag     = "java17"
+      // 28G is retained deliberately. The itzg image applies Aikar's
+      // large-heap profile automatically at MEMORY >= 12G, which is the
+      // tuning this server was missing; the heap size was never the issue.
+      memory     = "28G"
+      mc_version = "1.20.1"
+      image_tag  = "java17"
       // Mods live on the disk and are the frozen 1.20.1 set; see
       // mods/manifest-1.20.1.json. Deliberately NOT packwiz-managed: the
       // installer prunes mods/ and this disk holds the only copy.
@@ -27,8 +30,11 @@ locals {
     cobblemon = {
       instance_name = "aria-minecraft-cobblemon-instance"
       disk_name     = "aria-minecraft-cobblemon-data"
-      machine_type  = "n2-highmem-2"
-      memory        = "12G"
+      // n2-standard-4 over n2-highmem-2: identical 16G of RAM but 4 vCPU
+      // instead of 2. The tick loop is single-threaded and chunk generation
+      // is the usual bottleneck, so cores beat spare heap here.
+      machine_type = "n2-standard-4"
+      memory       = "10G"
       // Cobblemon's ceiling: 1.8.0 (Sept 2026) still targets 1.21.1.
       mc_version  = "1.21.1"
       image_tag   = "java21"
@@ -38,11 +44,14 @@ locals {
     latest = {
       instance_name = "aria-minecraft-latest-instance"
       disk_name     = "aria-minecraft-latest-data"
-      machine_type  = "n2-highmem-2"
-      memory        = "12G"
-      mc_version    = "26.2"
-      image_tag     = "java21"
-      packwiz_url   = "https://storage.googleapis.com/aria-minecraft-server/packs/latest/pack.toml"
+      // n2-standard-4 over n2-highmem-2: identical 16G of RAM but 4 vCPU
+      // instead of 2. The tick loop is single-threaded and chunk generation
+      // is the usual bottleneck, so cores beat spare heap here.
+      machine_type = "n2-standard-4"
+      memory       = "10G"
+      mc_version   = "26.2"
+      image_tag    = "java21"
+      packwiz_url  = "https://storage.googleapis.com/aria-minecraft-server/packs/latest/pack.toml"
     }
   }
 
