@@ -44,8 +44,11 @@ locals {
       image_tag  = "java21"
       // MeowIce: Aikar-derived but with Java 17+ optimisations, and these
       // worlds are on Java 21 with nothing at stake yet.
-      jvm_flags   = "meowice"
-      packwiz_url = "https://storage.googleapis.com/aria-minecraft-server/packs/cobblemon/pack.toml"
+      jvm_flags = "meowice"
+      // Served by GitHub Pages from packs/ in this repo. The GCS bucket cannot
+      // host these: it has uniform access with public access prevention enforced,
+      // and weakening that would expose the Terraform state and mod mirror too.
+      packwiz_url = "https://axiomeye.github.io/aria-minecraft-server-iac/packs/cobblemon/pack.toml"
     }
 
     latest = {
@@ -60,7 +63,7 @@ locals {
       mc_version   = "26.2"
       image_tag    = "java21"
       jvm_flags    = "meowice"
-      packwiz_url  = "https://storage.googleapis.com/aria-minecraft-server/packs/latest/pack.toml"
+      packwiz_url  = "https://axiomeye.github.io/aria-minecraft-server-iac/packs/latest/pack.toml"
     }
   }
 

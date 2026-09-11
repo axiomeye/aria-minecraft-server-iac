@@ -1,0 +1,13 @@
+name = "AriA Cobblemon"
+author = "axiomeye"
+version = "1.0.0"
+pack-format = "packwiz:1.1.0"
+
+[index]
+file = "index.toml"
+hash-format = "sha256"
+hash = "0d8f874e07738b7954617c9037633600b3deab174b05a22315b7937ca446b54c"
+
+[versions]
+minecraft = "1.21.1"
+fabric = "0.19.5"
