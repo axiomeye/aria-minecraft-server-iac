@@ -1,0 +1,157 @@
+hash-format = "sha256"
+
+[[files]]
+file = "mods/accessories.pw.toml"
+hash = "5285ba249b00d0d12a3cd1f64a5536e7618770dee31d3d240f9d4345ef69f888"
+metafile = true
+
+[[files]]
+file = "mods/architectury-api.pw.toml"
+hash = "0fb3808193da9b587367337d12d202d7b006e2522637a6502913d66a84f8626f"
+metafile = true
+
+[[files]]
+file = "mods/balm.pw.toml"
+hash = "de7bb9eecb68ac760a184374d6c59f24fa905ab11983a0f92b65113ad9d54c9a"
+metafile = true
+
+[[files]]
+file = "mods/cardinal-components-api.pw.toml"
+hash = "0c345c80310a4bd58c757e43d6060338a85d34eaffcb674a6e9cbf22ecbc9cb8"
+metafile = true
+
+[[files]]
+file = "mods/cloth-config.pw.toml"
+hash = "446c173c87b7908daee86b0dee89c6b628c77beb7a0bc091ff5252b7c0062080"
+metafile = true
+
+[[files]]
+file = "mods/clumps.pw.toml"
+hash = "fe84e2227c405bf9b735f01f307a01768784b9d49df82a13ecda3d3b6d198507"
+metafile = true
+
+[[files]]
+file = "mods/cobblemon.pw.toml"
+hash = "fb8bc7cbb79744dcd9e0232a46db2da1e1cc69b0b08dd33b41978933db8ef3a0"
+metafile = true
+
+[[files]]
+file = "mods/cobblemon-mega-showdown.pw.toml"
+hash = "4249bcc16bb47e96e80dd5a88d41a43c3c25c157d34ee1be60c8a972ca68c5af"
+metafile = true
+
+[[files]]
+file = "mods/cobbreeding.pw.toml"
+hash = "8f472ad517afe778fa8afbc7d84bad9f69e0e4ff9e83d2d2fca57b006d242b4c"
+metafile = true
+
+[[files]]
+file = "mods/collective.pw.toml"
+hash = "e37aafe5cd58c8289c3b8929393cba2a5c7f2cdd5bbe01e9c6ada1f3f5b86436"
+metafile = true
+
+[[files]]
+file = "mods/cooking-for-blockheads.pw.toml"
+hash = "ebfc5f1e4394ac766f52e068e53cac9b498d481cf15d569e1584792d04021d6e"
+metafile = true
+
+[[files]]
+file = "mods/double-doors.pw.toml"
+hash = "99f1ddd42145295a0e53c87a4e14185c975e8b2174a53295a9021988f0748081"
+metafile = true
+
+[[files]]
+file = "mods/easy-anvils.pw.toml"
+hash = "c03848ab316f8f8e07656e08c675541ce90f0ad729d5b31df336fe8f27a58b3f"
+metafile = true
+
+[[files]]
+file = "mods/easyauth.pw.toml"
+hash = "985a013ba46e3bd74803205625fe92a47cee16138db6beddd6c49980e2474ebc"
+metafile = true
+
+[[files]]
+file = "mods/emotecraft.pw.toml"
+hash = "135837201d4c30811971e630e957867397b995e6803ff75754d510bf1b4fe8fc"
+metafile = true
+
+[[files]]
+file = "mods/fabric-api.pw.toml"
+hash = "9645e76b2915aa43b0918e1ef20e1c01b64ba9073e35c8bcd70cf34af8ab604e"
+metafile = true
+
+[[files]]
+file = "mods/forge-config-api-port.pw.toml"
+hash = "238b3ceb4214a682480ce00eefae5d34efa299ff6ff667e4b2f2ed503c6e76ee"
+metafile = true
+
+[[files]]
+file = "mods/jade.pw.toml"
+hash = "fd56a0cff0fa0172c35309f52e7bf76731abde661b03977bc8380bba687cbe98"
+metafile = true
+
+[[files]]
+file = "mods/jei.pw.toml"
+hash = "e9655121453dd26917f0471232d8e986815703daa0b5788943b2edfcc5406d82"
+metafile = true
+
+[[files]]
+file = "mods/journeymap.pw.toml"
+hash = "047cc1bae1318c3437efbdb150cc3bcb683c18df0e5ec2fd63660bc625c4c0ab"
+metafile = true
+
+[[files]]
+file = "mods/krypton.pw.toml"
+hash = "c4e45594c8d1ab3dacc3b49142f16fb253178dd31d97cc917bf4a4d54f21e081"
+metafile = true
+
+[[files]]
+file = "mods/lithium.pw.toml"
+hash = "e10e639f71700a67d7f9b9d747e1685f838d703dadd432464b54e31b26f4742b"
+metafile = true
+
+[[files]]
+file = "mods/owo-lib.pw.toml"
+hash = "60a3d23eb73106ecb6ba5a391d4539e3557cbd9b1f3611a2de08052155d78b3a"
+metafile = true
+
+[[files]]
+file = "mods/puzzles-lib.pw.toml"
+hash = "2ece712d0a402e159a033248699a63a6ad813f21b4892972e1fec0eafe126594"
+metafile = true
+
+[[files]]
+file = "mods/rctapi.pw.toml"
+hash = "401fe1266142c6f86a6d21b144c6da3c3d9d4aa4445c9798d8a12442b20e2c03"
+metafile = true
+
+[[files]]
+file = "mods/rctmod.pw.toml"
+hash = "d18097875d3dfe88737bd1a0cf7a826303ddf9d4ab3663e93a0b9b0b99bbd607"
+metafile = true
+
+[[files]]
+file = "mods/simple-voice-chat.pw.toml"
+hash = "6c236a3eb1252f7a2e1dba35fb301d41f788358320aad4f2ce97b5dd2d79db3e"
+metafile = true
+
+[[files]]
+file = "mods/skinrestorer.pw.toml"
+hash = "85b3fe3ded796c65745ca36d905718896271cc2f6d6c49f8e4d5c9f26ebe2aea"
+metafile = true
+
+[[files]]
+file = "mods/travelersbackpack.pw.toml"
+hash = "76c319b18147464969222ce63823f32ea49d87e337d6c82b20568efe0ef2f331"
+metafile = true
+
+[[files]]
+file = "mods/trinkets.pw.toml"
+hash = "860812150cb54f0d9ee1bce7b72798b6cc5f752bb05709f0c60231d054ec281d"
+metafile = true
+
+[[files]]
+file = "mods/waystones.pw.toml"
+hash = "f17b6acba78c3c07b362321cf33c6ff3716ff6b761db4bedc94c792e796b0b29"
+metafile = true
+
