@@ -21,6 +21,9 @@ locals {
       memory     = "28G"
       mc_version = "1.20.1"
       image_tag  = "java17"
+      // Aikar rather than MeowIce here: this is the live world, and the
+      // itzg image switches Aikar to its large-heap profile at >= 12G.
+      jvm_flags = "aikar"
       // Mods live on the disk and are the frozen 1.20.1 set; see
       // mods/manifest-1.20.1.json. Deliberately NOT packwiz-managed: the
       // installer prunes mods/ and this disk holds the only copy.
@@ -30,27 +33,33 @@ locals {
     cobblemon = {
       instance_name = "aria-minecraft-cobblemon-instance"
       disk_name     = "aria-minecraft-cobblemon-data"
-      // n2-standard-4 over n2-highmem-2: identical 16G of RAM but 4 vCPU
-      // instead of 2. The tick loop is single-threaded and chunk generation
-      // is the usual bottleneck, so cores beat spare heap here.
-      machine_type = "n2-standard-4"
-      memory       = "10G"
+      // 4 vCPU, 8G. No stock n2 shape has 4 vCPU under 16G, hence custom.
+      // Cores matter (single-threaded tick loop, chunk gen); the extra 8G
+      // of a standard-4 would have sat unused. Raise both lines together
+      // if these worlds turn out to need more headroom.
+      machine_type = "n2-custom-4-8192"
+      memory       = "6G"
       // Cobblemon's ceiling: 1.8.0 (Sept 2026) still targets 1.21.1.
-      mc_version  = "1.21.1"
-      image_tag   = "java21"
+      mc_version = "1.21.1"
+      image_tag  = "java21"
+      // MeowIce: Aikar-derived but with Java 17+ optimisations, and these
+      // worlds are on Java 21 with nothing at stake yet.
+      jvm_flags   = "meowice"
       packwiz_url = "https://storage.googleapis.com/aria-minecraft-server/packs/cobblemon/pack.toml"
     }
 
     latest = {
       instance_name = "aria-minecraft-latest-instance"
       disk_name     = "aria-minecraft-latest-data"
-      // n2-standard-4 over n2-highmem-2: identical 16G of RAM but 4 vCPU
-      // instead of 2. The tick loop is single-threaded and chunk generation
-      // is the usual bottleneck, so cores beat spare heap here.
-      machine_type = "n2-standard-4"
-      memory       = "10G"
+      // 4 vCPU, 8G. No stock n2 shape has 4 vCPU under 16G, hence custom.
+      // Cores matter (single-threaded tick loop, chunk gen); the extra 8G
+      // of a standard-4 would have sat unused. Raise both lines together
+      // if these worlds turn out to need more headroom.
+      machine_type = "n2-custom-4-8192"
+      memory       = "6G"
       mc_version   = "26.2"
       image_tag    = "java21"
+      jvm_flags    = "meowice"
       packwiz_url  = "https://storage.googleapis.com/aria-minecraft-server/packs/latest/pack.toml"
     }
   }

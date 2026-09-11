@@ -50,6 +50,7 @@ resource "google_compute_instance" "aria_server" {
       memory           = local.w.memory
       image_tag        = local.w.image_tag
       packwiz_url      = local.w.packwiz_url
+      jvm_flags        = local.w.jvm_flags
       disk_device_name = local.disk_device_name
 
       // Inlined verbatim into the startup script. file() content is injected as

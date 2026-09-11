@@ -96,13 +96,23 @@ if [ -n "${packwiz_url}" ]; then
   PACKWIZ_ARGS=(-e "PACKWIZ_URL=${packwiz_url}")
 fi
 
+# GC tuning. aikar = Aikar's flags (the image switches to his large-heap
+# profile at MEMORY >= 12G); meowice = MeowIce's Aikar-derived set with
+# Java 17+ optimisations. GraalVM extras are deliberately left off: these
+# are stock temurin images, not GraalVM.
+JVM_FLAG_ARGS=()
+case "${jvm_flags}" in
+  aikar)   JVM_FLAG_ARGS=(-e USE_AIKAR_FLAGS=true) ;;
+  meowice) JVM_FLAG_ARGS=(-e USE_MEOWICE_FLAGS=true) ;;
+  *)       echo "WARNING: unknown jvm_flags '${jvm_flags}', running untuned" ;;
+esac
+
 docker run --privileged -d -v "$MOUNT_POINT":/data \
     -e TYPE=FABRIC -e MEMORY=${memory} -e DEBUG=true -e PVP=false \
-    -e USE_AIKAR_FLAGS=true \
     -e ENABLE_AUTOSTOP=TRUE -e AUTOSTOP_TIMEOUT_EST=350 \
     -e AUTOSTOP_TIMEOUT_INIT=600 -e ONLINE_MODE=false \
     -e VERSION=${mc_version} \
-    "$${PACKWIZ_ARGS[@]}" \
+    "$${PACKWIZ_ARGS[@]}" "$${JVM_FLAG_ARGS[@]}" \
     -p 25565:25565 -e EULA=TRUE --name mc \
     itzg/minecraft-server:${image_tag}
 
