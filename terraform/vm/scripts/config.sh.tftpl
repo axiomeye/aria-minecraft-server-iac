@@ -115,7 +115,7 @@ docker run --privileged -d -v "$MOUNT_POINT":/data \
     -e TYPE=FABRIC -e MEMORY=${memory} -e DEBUG=true -e PVP=false \
     -e ENABLE_AUTOSTOP=TRUE -e AUTOSTOP_TIMEOUT_EST=350 \
     -e AUTOSTOP_TIMEOUT_INIT=600 -e ONLINE_MODE=false \
-    -e VERSION=${mc_version} -e MOTD="Benvenuto in ${server_name}" \
+    -e VERSION=${mc_version} -e MOTD="Welcome to ${server_name}" \
     "$${PACKWIZ_ARGS[@]}" "$${JVM_FLAG_ARGS[@]}" \
     -p 25565:25565 -e EULA=TRUE --name mc \
     itzg/minecraft-server:${image_tag}

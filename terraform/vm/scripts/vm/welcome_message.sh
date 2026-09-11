@@ -35,7 +35,7 @@ docker logs -f --tail 0 mc 2>&1 | while read -r line; do
     echo "welcome_message: welcoming player '$PLAYER' to $SERVER_NAME"
     docker exec mc rcon-cli title "$PLAYER" times 10 70 20 2>/dev/null || true
     docker exec mc rcon-cli title "$PLAYER" subtitle "{\"text\":\"$SERVER_NAME\",\"color\":\"gold\",\"bold\":true}" 2>/dev/null || true
-    docker exec mc rcon-cli title "$PLAYER" title "{\"text\":\"Benvenuto in\",\"color\":\"yellow\"}" 2>/dev/null || true
-    docker exec mc rcon-cli tellraw "$PLAYER" "[{\"text\":\"[AriA] \",\"color\":\"gold\",\"bold\":true},{\"text\":\"Benvenuto in \",\"color\":\"yellow\"},{\"text\":\"$SERVER_NAME\",\"color\":\"gold\",\"bold\":true},{\"text\":\"!\",\"color\":\"yellow\"}]" 2>/dev/null || true
+    docker exec mc rcon-cli title "$PLAYER" title "{\"text\":\"Welcome to\",\"color\":\"yellow\"}" 2>/dev/null || true
+    docker exec mc rcon-cli tellraw "$PLAYER" "[{\"text\":\"[AriA] \",\"color\":\"gold\",\"bold\":true},{\"text\":\"Welcome to \",\"color\":\"yellow\"},{\"text\":\"$SERVER_NAME\",\"color\":\"gold\",\"bold\":true},{\"text\":\"!\",\"color\":\"yellow\"}]" 2>/dev/null || true
   fi
 done
