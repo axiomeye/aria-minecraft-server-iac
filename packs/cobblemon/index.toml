@@ -146,6 +146,11 @@ hash = "76c319b18147464969222ce63823f32ea49d87e337d6c82b20568efe0ef2f331"
 metafile = true
 
 [[files]]
+file = "mods/treechop.pw.toml"
+hash = "5a0280ac06f0ee35cfd7e5234e9d265842dbf91746e2b344e9ec66f1d1e4911a"
+metafile = true
+
+[[files]]
 file = "mods/trinkets.pw.toml"
 hash = "860812150cb54f0d9ee1bce7b72798b6cc5f752bb05709f0c60231d054ec281d"
 metafile = true

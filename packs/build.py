@@ -171,7 +171,7 @@ LATEST = ["lithium", "krypton", "clumps", "chunky", "terralith", "jei", "jade",
 
 COBBLEMON = ["cobblemon", "cobbreeding", "rctmod", "cobblemon-mega-showdown", "lithium", "krypton", "clumps",
              "jei", "jade", "journeymap", "waystones", "travelersbackpack",
-             "trinkets", "easy-anvils", "double-doors", "cooking-for-blockheads",
+             "trinkets", "easy-anvils", "double-doors", "cooking-for-blockheads", "treechop",
              "simple-voice-chat", "emotecraft", "skinrestorer", "easyauth"]
 
 if __name__ == "__main__":
