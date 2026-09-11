@@ -116,11 +116,20 @@ docker run --privileged -d -v "$MOUNT_POINT":/data \
     -p 25565:25565 -e EULA=TRUE --name mc \
     itzg/minecraft-server:${image_tag}
 
-# Wait for Minecraft server to start
-echo "Waiting for Minecraft server to start..."
-sleep 45s
-echo "Minecraft server should be ready!"
+# Wait for the server to actually accept connections before announcing the IP.
+# A fixed sleep cannot work here: startup time depends on the mod count, on
+# whether packwiz still has to download the pack, and on disk speed. On the
+# first cobblemon boot the old 45s timer fired 18 seconds before the server
+# finished loading, so the address reached players while it was still refusing
+# connections. The container ships a healthcheck, so wait for that instead.
+echo "Waiting for the Minecraft server to report healthy..."
+for _ in $(seq 1 120); do
+  health=$(docker inspect -f '{{.State.Health.Status}}' mc 2>/dev/null || echo unknown)
+  [ "$health" = "healthy" ] && break
+  sleep 5
+done
+echo "Server health after wait: $(docker inspect -f '{{.State.Health.Status}}' mc 2>/dev/null || echo unknown)"
 
-# Call the scripts downloaded from GCS in background
+# Helper scripts, inlined above into /opt/scripts
 nohup bash /opt/scripts/send_ip_address.sh </dev/null &>/dev/null &
 nohup bash /opt/scripts/auto_destroy.sh </dev/null &>/dev/null &
