@@ -1,4 +1,5 @@
 name: destroy infrastructure
+run-name: destroy infrastructure [${{ github.event.client_payload.world || inputs.world || 'classic' }}]
 
 on:
   repository_dispatch:
