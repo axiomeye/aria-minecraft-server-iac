@@ -42,7 +42,7 @@ metafile = true
 
 [[files]]
 file = "mods/emotecraft.pw.toml"
-hash = "64240a3c888964149e4131d8e632ea82e5a1c139e8bcd7ef19edce2e000c697c"
+hash = "f349dc78b4e30597bd1227acb2675f2857ffe0ca1c52a68b9c1310a78a97f519"
 metafile = true
 
 [[files]]

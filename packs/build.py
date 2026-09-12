@@ -169,7 +169,11 @@ LATEST = ["lithium", "krypton", "clumps", "chunky", "terralith", "jei", "jade",
           "better-combat", "runes", "simple-voice-chat", "emotecraft",
           "skinrestorer", "easyauth"]
 
-COBBLEMON = ["cobblemon", "cobbreeding", "rctmod", "cobblemon-mega-showdown", "lithium", "krypton", "clumps",
+COBBLEMON = ["cobblemon", "cobbreeding", "rctmod", "cobblemon-mega-showdown",
+             "cobblemon-fight-or-flight-reborn", "cobblemon-smartphone", "cobbledollars",
+             "cobblemon-battle-tower", "cobblemon-cobblestats", "cobblemonextrastructures",
+             "cobblemon-badgebox",
+             "lithium", "krypton", "clumps",
              "jei", "jade", "journeymap", "waystones", "travelersbackpack",
              "trinkets", "easy-anvils", "double-doors", "cooking-for-blockheads", "treechop",
              "simple-voice-chat", "emotecraft", "skinrestorer", "easyauth"]

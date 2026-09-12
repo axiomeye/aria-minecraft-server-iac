@@ -31,13 +31,48 @@ hash = "fe84e2227c405bf9b735f01f307a01768784b9d49df82a13ecda3d3b6d198507"
 metafile = true
 
 [[files]]
+file = "mods/cobbledollars.pw.toml"
+hash = "b61d3783e85f963d6235bf86e0d09a3f9e0030634654b07327600ca6b939d627"
+metafile = true
+
+[[files]]
 file = "mods/cobblemon.pw.toml"
 hash = "fb8bc7cbb79744dcd9e0232a46db2da1e1cc69b0b08dd33b41978933db8ef3a0"
 metafile = true
 
 [[files]]
+file = "mods/cobblemon-badgebox.pw.toml"
+hash = "dbcd6c1d82ef54574a85b8aa7a74d91cfbeca90830706346d2e1ee5bf2b9c86f"
+metafile = true
+
+[[files]]
+file = "mods/cobblemon-battle-tower.pw.toml"
+hash = "42903ffa9569f362e3ab04cc8b6a570f80037293669dc66ee1abdd00607e2020"
+metafile = true
+
+[[files]]
+file = "mods/cobblemon-cobblestats.pw.toml"
+hash = "6ae09cfd9cb42c9eec7bb878c5f05fb74138f02b93363b4ec3c6817f63a17dd5"
+metafile = true
+
+[[files]]
+file = "mods/cobblemon-fight-or-flight-reborn.pw.toml"
+hash = "ea9a2ff3b7c7c3ebd0214b32fd74d2b4a6b21798e85108b60d19de35b625326d"
+metafile = true
+
+[[files]]
 file = "mods/cobblemon-mega-showdown.pw.toml"
 hash = "4249bcc16bb47e96e80dd5a88d41a43c3c25c157d34ee1be60c8a972ca68c5af"
+metafile = true
+
+[[files]]
+file = "mods/cobblemon-smartphone.pw.toml"
+hash = "91986edc20151860aeca66b7c9dc01fb226ad71392d6f02ffc639b8d315b3190"
+metafile = true
+
+[[files]]
+file = "mods/cobblemonextrastructures.pw.toml"
+hash = "f190c0dc949c9961922684ee604177450130ec683985effb30529cdfa77941c6"
 metafile = true
 
 [[files]]
@@ -158,5 +193,10 @@ metafile = true
 [[files]]
 file = "mods/waystones.pw.toml"
 hash = "f17b6acba78c3c07b362321cf33c6ff3716ff6b761db4bedc94c792e796b0b29"
+metafile = true
+
+[[files]]
+file = "mods/wild-battle-api.pw.toml"
+hash = "33c55b3295464916bfea16af156b2a87f4441186446d90fbba1d373f64a74140"
 metafile = true
 
