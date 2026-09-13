@@ -116,6 +116,16 @@ hash = "352e96ec5289e9128eea73f4fb3f969218bb2da0c742a7c614b689ac93c314c0"
 metafile = true
 
 [[files]]
+file = "mods/streams-reflowing.pw.toml"
+hash = "9574b1d68522e3ed3dfb6533fdc7766dd7843c878f736608404306b9e861adda"
+metafile = true
+
+[[files]]
+file = "mods/tectonic.pw.toml"
+hash = "70e40513d7eba0e7ad0897bdadc9b203febfb3b43662342bf5ca06e2c8be3c74"
+metafile = true
+
+[[files]]
 file = "mods/terralith.pw.toml"
 hash = "b1083983d7ac86c52c1bb1da749f132460c4ee9a8875e76c5244037fc1e0de73"
 metafile = true

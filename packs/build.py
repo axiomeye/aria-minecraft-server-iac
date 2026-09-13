@@ -184,7 +184,8 @@ def build(world, mc, loader_version, names):
     return len(resolved)
 
 
-LATEST = ["lithium", "krypton", "clumps", "chunky", "terralith", "jei", "jade",
+LATEST = ["lithium", "krypton", "clumps", "chunky", "terralith", "tectonic",
+          "streams-reflowing", "jei", "jade",
           "journeymap", "waystones", "easy-anvils", "travelersbackpack",
           "better-combat", "runes", "simple-voice-chat", "emotecraft",
           "skinrestorer", "easyauth"]
