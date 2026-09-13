@@ -57,9 +57,10 @@ resource "google_compute_instance" "aria_server" {
       // Inlined verbatim into the startup script. file() content is injected as
       // a value, not re-parsed as a template, so shell ${...} inside these
       // scripts is safe and needs no escaping.
-      auto_destroy_sh    = file("${path.module}/scripts/vm/auto_destroy.sh")
-      send_ip_address_sh = file("${path.module}/scripts/vm/send_ip_address.sh")
-      welcome_message_sh = file("${path.module}/scripts/vm/welcome_message.sh")
+      auto_destroy_sh        = file("${path.module}/scripts/vm/auto_destroy.sh")
+      send_ip_address_sh     = file("${path.module}/scripts/vm/send_ip_address.sh")
+      welcome_message_sh     = file("${path.module}/scripts/vm/welcome_message.sh")
+      report_boot_failure_sh = file("${path.module}/scripts/vm/report_boot_failure.sh")
     })
     shutdown-script = file("${path.module}/scripts/shutdown.sh")
   }

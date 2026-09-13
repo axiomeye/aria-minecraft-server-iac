@@ -58,6 +58,10 @@ cat > /opt/scripts/welcome_message.sh <<'ARIA_EOF_WELCOME'
 ${welcome_message_sh}
 ARIA_EOF_WELCOME
 
+cat > /opt/scripts/report_boot_failure.sh <<'ARIA_EOF_BOOT_FAIL'
+${report_boot_failure_sh}
+ARIA_EOF_BOOT_FAIL
+
 chmod +x /opt/scripts/*.sh
 
 # Mods are supplied per-world:
@@ -127,14 +131,41 @@ docker run --privileged -d -v "$MOUNT_POINT":/data \
 # finished loading, so the address reached players while it was still refusing
 # connections. The container ships a healthcheck, so wait for that instead.
 echo "Waiting for the Minecraft server to report healthy..."
+CRASHED=0
 for _ in $(seq 1 180); do
+  status=$(docker inspect -f '{{.State.Status}}' mc 2>/dev/null || echo unknown)
+  if [ "$status" = "exited" ] || [ "$status" = "dead" ]; then
+    CRASHED=1
+    break
+  fi
   health=$(docker inspect -f '{{.State.Health.Status}}' mc 2>/dev/null || echo unknown)
   [ "$health" = "healthy" ] && break
   sleep 5
 done
 echo "Server health after wait: $(docker inspect -f '{{.State.Health.Status}}' mc 2>/dev/null || echo unknown)"
+echo "Server container status: $(docker inspect -f '{{.State.Status}}' mc 2>/dev/null || echo unknown)"
 
 # Helper scripts, inlined above into /opt/scripts
-nohup bash /opt/scripts/welcome_message.sh "${server_name}" </dev/null &>/dev/null &
-nohup bash /opt/scripts/send_ip_address.sh </dev/null &>/dev/null &
+if [ "$CRASHED" = "1" ]; then
+  # The container exited on its own before ever becoming healthy -- almost
+  # always a mod/dependency error at Fabric Loader init, not something a
+  # longer wait would fix. Capture the tail of its log (this VM and everything
+  # on it disappears once auto_destroy runs, so this is the only chance to see
+  # why) and report that instead of silently waiting out the timeout and then
+  # either announcing a dead IP or self-destroying with no explanation.
+  echo "Container exited before becoming healthy -- reporting boot failure instead of announcing an IP"
+  # tr collapses newlines/tabs/carriage-returns to plain characters -- JSON
+  # strings cannot contain raw control characters, and Java stack traces are
+  # tab-indented, so this is not just cosmetic. Backslash then quote escaping
+  # is done with bash's own substitution rather than sed: this exact sed
+  # invocation reliably breaks under Git Bash/MSYS argument mangling in local
+  # testing, and bash parameter expansion needs no external process anyway.
+  CRASH_LOG=$(docker logs mc 2>&1 | tail -40 | tr '\t' ' ' | tr '\r' ' ' | tr '\n' '|')
+  CRASH_LOG="$${CRASH_LOG//\\/\\\\}"
+  CRASH_LOG="$${CRASH_LOG//\"/\\\"}"
+  bash /opt/scripts/report_boot_failure.sh "$CRASH_LOG"
+else
+  nohup bash /opt/scripts/welcome_message.sh "${server_name}" </dev/null &>/dev/null &
+  nohup bash /opt/scripts/send_ip_address.sh </dev/null &>/dev/null &
+fi
 nohup bash /opt/scripts/auto_destroy.sh </dev/null &>/dev/null &
