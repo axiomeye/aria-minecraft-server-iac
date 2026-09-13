@@ -34,12 +34,16 @@ locals {
     cobblemon = {
       instance_name = "aria-minecraft-cobblemon-instance"
       disk_name     = "aria-minecraft-cobblemon-data"
-      // 4 vCPU, 8G. No stock n2 shape has 4 vCPU under 16G, hence custom.
-      // Cores matter (single-threaded tick loop, chunk gen); the extra 8G
-      // of a standard-4 would have sat unused. Raise both lines together
-      // if these worlds turn out to need more headroom.
-      machine_type = "n2-custom-4-8192"
-      memory       = "6G"
+      // 4 vCPU, 12G. Raised from 8G/6G-heap on 2026-09-13: with this world's
+      // modlist grown from 18 to 42 (Cobbledollars, Extra Structures, Battle
+      // Tower, BadgeBox, CobbleFurnies+Athena...), a boot peaked at 6.3G
+      // container memory against a 6G heap on an 8G host, then died and
+      // triggered auto_destroy after ~19 min -- consistent with the JVM
+      // hitting its own -Xmx internally (no kernel OOM-killer message, no
+      // autostop timer had expired yet). 9G heap leaves ~3G for OS/Docker/
+      // metaspace on a 12G host, matching classic's roomier heap-vs-host ratio.
+      machine_type = "n2-custom-4-12288"
+      memory       = "9G"
       // Cobblemon's ceiling: 1.8.0 (Sept 2026) still targets 1.21.1.
       mc_version = "1.21.1"
       image_tag  = "java21"
@@ -66,7 +70,7 @@ locals {
       image_tag    = "java21"
       jvm_flags    = "meowice"
       packwiz_url  = "https://axiomeye.github.io/aria-minecraft-server-iac/packs/latest/pack.toml"
-      server_name = "AriA Latest Minecraft"
+      server_name  = "AriA Latest Minecraft"
     }
   }
 
