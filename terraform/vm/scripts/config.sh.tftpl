@@ -114,7 +114,7 @@ esac
 docker run --privileged -d -v "$MOUNT_POINT":/data \
     -e TYPE=FABRIC -e MEMORY=${memory} -e DEBUG=true -e PVP=false \
     -e ENABLE_AUTOSTOP=TRUE -e AUTOSTOP_TIMEOUT_EST=350 \
-    -e AUTOSTOP_TIMEOUT_INIT=600 -e ONLINE_MODE=false \
+    -e AUTOSTOP_TIMEOUT_INIT=1800 -e ONLINE_MODE=false \
     -e VERSION=${mc_version} -e MOTD="Welcome to ${server_name}" \
     "$${PACKWIZ_ARGS[@]}" "$${JVM_FLAG_ARGS[@]}" \
     -p 25565:25565 -e EULA=TRUE --name mc \
@@ -127,7 +127,7 @@ docker run --privileged -d -v "$MOUNT_POINT":/data \
 # finished loading, so the address reached players while it was still refusing
 # connections. The container ships a healthcheck, so wait for that instead.
 echo "Waiting for the Minecraft server to report healthy..."
-for _ in $(seq 1 120); do
+for _ in $(seq 1 180); do
   health=$(docker inspect -f '{{.State.Health.Status}}' mc 2>/dev/null || echo unknown)
   [ "$health" = "healthy" ] && break
   sleep 5
