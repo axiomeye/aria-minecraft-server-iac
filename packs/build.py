@@ -71,11 +71,26 @@ def primary_file(v):
 
 
 def collect(names, mc):
-    """Resolve names + required deps -> {slug: (project, version)}."""
-    out, queue, seen = {}, list(names), set()
+    """Resolve names + required deps -> {slug: (project, version, forced_both)}.
+
+    forced_both is True for anything reached only as a *required* dependency
+    of something in our list. Fabric Loader enforces a mod's declared
+    `depends` on whichever side loads that mod, regardless of what the
+    dependency's own Modrinth client_side/server_side fields claim about
+    itself -- those describe whether the dependency is USEFUL standalone on
+    a server, not whether the loader will tolerate its absence. Every
+    top-level name we pass in here is server content, so any required
+    dependency must load on the server too, or the server refuses to boot.
+    (Found the hard way: CobbleFurnies requires Athena, whose own listing
+    says server-unsupported; marking Athena client-only crashed the server
+    with "which is missing!" at startup.)
+    """
+    out, queue, seen, forced_both = {}, [(n, False) for n in names], set(), set()
     while queue:
-        name = queue.pop(0)
+        name, is_dep = queue.pop(0)
         slug = resolve_slug(name)
+        if is_dep:
+            forced_both.add(slug)
         if slug in seen:
             continue
         seen.add(slug)
@@ -90,10 +105,10 @@ def collect(names, mc):
             pid = d.get("project_id")
             if pid:
                 try:
-                    queue.append(project(pid)["slug"])
+                    queue.append((project(pid)["slug"], True))
                 except Exception:
                     print(f"  !! {slug}: unresolvable dependency {pid}")
-    return out
+    return out, forced_both
 
 
 def toml_escape(s):
@@ -102,7 +117,7 @@ def toml_escape(s):
 
 def build(world, mc, loader_version, names):
     print(f"\n=== {world}  (Minecraft {mc})")
-    resolved = collect(names, mc)
+    resolved, forced_both = collect(names, mc)
     out_dir = os.path.join(OUT_ROOT, world)
     mods_dir = os.path.join(out_dir, "mods")
     os.makedirs(mods_dir, exist_ok=True)
@@ -115,6 +130,10 @@ def build(world, mc, loader_version, names):
         f = primary_file(v)
         sha512 = f["hashes"]["sha512"]
         side = side_of(p)
+        if side == "client" and slug in forced_both:
+            print(f"  !! {p['title']}: Modrinth lists it client-only, but it's a "
+                  f"required dependency here -- forcing side=both")
+            side = "both"
         body = (
             f'name = "{toml_escape(p["title"])}"\n'
             f'filename = "{toml_escape(f["filename"])}"\n'
@@ -159,7 +178,8 @@ def build(world, mc, loader_version, names):
 
     sides = {}
     for slug in resolved:
-        sides[side_of(resolved[slug][0])] = sides.get(side_of(resolved[slug][0]), 0) + 1
+        actual = "both" if (side_of(resolved[slug][0]) == "client" and slug in forced_both) else side_of(resolved[slug][0])
+        sides[actual] = sides.get(actual, 0) + 1
     print(f"  -> {len(resolved)} mods  ({sides})")
     return len(resolved)
 

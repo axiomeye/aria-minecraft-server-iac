@@ -12,7 +12,7 @@ metafile = true
 
 [[files]]
 file = "mods/athena-ctm.pw.toml"
-hash = "fb5deb56a77c8a30f9fbc0c54ba5768bdb6d84c9b94d6de36edfb3076bff94b0"
+hash = "16f4aa64663e05ba013f9a38c69695e4086a6403575adb29b1379b417d28e519"
 metafile = true
 
 [[files]]
@@ -47,7 +47,7 @@ metafile = true
 
 [[files]]
 file = "mods/cobblemon.pw.toml"
-hash = "fb8bc7cbb79744dcd9e0232a46db2da1e1cc69b0b08dd33b41978933db8ef3a0"
+hash = "4ee82c782d240cf3bce3c939203ddc4f331e80c1f8e499208370f53bbc9ba6f3"
 metafile = true
 
 [[files]]
