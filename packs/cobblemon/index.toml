@@ -21,8 +21,23 @@ hash = "de7bb9eecb68ac760a184374d6c59f24fa905ab11983a0f92b65113ad9d54c9a"
 metafile = true
 
 [[files]]
+file = "mods/berry-pouch.pw.toml"
+hash = "51d8da98c5c2f61bd33bbe957d6de6c307d057bd480ddc560e8bb90a53a9a1f1"
+metafile = true
+
+[[files]]
+file = "mods/building-wands.pw.toml"
+hash = "d855e213814f89e1975c1817a14ac2aa64a30efcce707b2898ede523f9a1c9d4"
+metafile = true
+
+[[files]]
 file = "mods/cardinal-components-api.pw.toml"
 hash = "0c345c80310a4bd58c757e43d6060338a85d34eaffcb674a6e9cbf22ecbc9cb8"
+metafile = true
+
+[[files]]
+file = "mods/catch-rate-display.pw.toml"
+hash = "5d08b5682e775ffc73289ef28f664cf2a49da5bbe4a7db7a5eda87b5e883ff03"
 metafile = true
 
 [[files]]
@@ -33,11 +48,6 @@ metafile = true
 [[files]]
 file = "mods/clumps.pw.toml"
 hash = "fe84e2227c405bf9b735f01f307a01768784b9d49df82a13ecda3d3b6d198507"
-metafile = true
-
-[[files]]
-file = "mods/cobbledollars.pw.toml"
-hash = "b61d3783e85f963d6235bf86e0d09a3f9e0030634654b07327600ca6b939d627"
 metafile = true
 
 [[files]]
@@ -66,6 +76,11 @@ hash = "6ae09cfd9cb42c9eec7bb878c5f05fb74138f02b93363b4ec3c6817f63a17dd5"
 metafile = true
 
 [[files]]
+file = "mods/cobblemon-environment-interactions.pw.toml"
+hash = "aa6b2ef8dc62c646a2197b42327e965d027c11db38c7d1c4ae241611fb6b97ee"
+metafile = true
+
+[[files]]
 file = "mods/cobblemon-fight-or-flight-reborn.pw.toml"
 hash = "ea9a2ff3b7c7c3ebd0214b32fd74d2b4a6b21798e85108b60d19de35b625326d"
 metafile = true
@@ -76,6 +91,11 @@ hash = "ee057daa85d289dc2a860fcb7108d19d4b355235348498de63892daa262ec277"
 metafile = true
 
 [[files]]
+file = "mods/cobblemon-move-inspector.pw.toml"
+hash = "784184013f308a4fbec92b2ab5610969ca33ec547fd953fcc9d50cd2095d63e2"
+metafile = true
+
+[[files]]
 file = "mods/cobblemon-smartphone.pw.toml"
 hash = "91986edc20151860aeca66b7c9dc01fb226ad71392d6f02ffc639b8d315b3190"
 metafile = true
@@ -83,6 +103,16 @@ metafile = true
 [[files]]
 file = "mods/cobblemonextrastructures.pw.toml"
 hash = "f190c0dc949c9961922684ee604177450130ec683985effb30529cdfa77941c6"
+metafile = true
+
+[[files]]
+file = "mods/cobblemonraiddens.pw.toml"
+hash = "3e1c0b09e95b7f03d678877aad15abb9a12f9e3427e35c93a25d074ee188b794"
+metafile = true
+
+[[files]]
+file = "mods/cobblepedia.pw.toml"
+hash = "9ad38f6af18aa40e336f51314f6262cd0a8f3b6e2864f0216c5815efa71f4273"
 metafile = true
 
 [[files]]
@@ -126,8 +156,18 @@ hash = "9645e76b2915aa43b0918e1ef20e1c01b64ba9073e35c8bcd70cf34af8ab604e"
 metafile = true
 
 [[files]]
+file = "mods/fabric-language-kotlin.pw.toml"
+hash = "7a7f5673b6e33eebaed00c0c453fc41d11c7474eb320c3ce8736d415fcfe2682"
+metafile = true
+
+[[files]]
 file = "mods/forge-config-api-port.pw.toml"
 hash = "238b3ceb4214a682480ce00eefae5d34efa299ff6ff667e4b2f2ed503c6e76ee"
+metafile = true
+
+[[files]]
+file = "mods/geckolib.pw.toml"
+hash = "3d26ad5d3f7693336b18c894f37978f7490d284f7f3b19b46d0527a7938789fc"
 metafile = true
 
 [[files]]
@@ -158,6 +198,11 @@ metafile = true
 [[files]]
 file = "mods/owo-lib.pw.toml"
 hash = "60a3d23eb73106ecb6ba5a391d4539e3557cbd9b1f3611a2de08052155d78b3a"
+metafile = true
+
+[[files]]
+file = "mods/patchouli.pw.toml"
+hash = "c0fb35b9b9754549845f905fa6651d7edc5227599bb4e32c4829ca1a975cd93e"
 metafile = true
 
 [[files]]
@@ -202,7 +247,7 @@ metafile = true
 
 [[files]]
 file = "mods/waystones.pw.toml"
-hash = "f17b6acba78c3c07b362321cf33c6ff3716ff6b761db4bedc94c792e796b0b29"
+hash = "db279d992170ffe5d79a37771e898e74b6f6cb1c03280727b0debe6e4b6316fb"
 metafile = true
 
 [[files]]

@@ -185,19 +185,21 @@ def build(world, mc, loader_version, names):
 
 
 LATEST = ["lithium", "krypton", "clumps", "chunky", "terralith", "tectonic",
-          "streams-reflowing", "jei", "jade",
+          "streams-reflowing", "fwa", "jei", "jade",
           "journeymap", "waystones", "easy-anvils", "travelersbackpack",
           "better-combat", "runes", "simple-voice-chat", "emotecraft",
           "skinrestorer", "easyauth"]
 
 COBBLEMON = ["cobblemon", "cobbreeding", "rctmod", "cobblemon-mega-showdown",
-             "cobblemon-fight-or-flight-reborn", "cobblemon-smartphone", "cobbledollars",
+             "cobblemon-fight-or-flight-reborn", "cobblemon-smartphone",
              "cobblemon-battle-tower", "cobblemon-cobblestats", "cobblemonextrastructures",
              "cobblemon-badgebox", "cobblefurnies",
+             "cobblemon-environment-interactions", "cobblepedia", "cobblemonraiddens",
+             "cobblemon-move-inspector", "catch-rate-display", "berry-pouch",
              "lithium", "krypton", "clumps",
              "jei", "jade", "journeymap", "waystones", "travelersbackpack",
              "trinkets", "easy-anvils", "double-doors", "cooking-for-blockheads", "treechop",
-             "simple-voice-chat", "emotecraft", "skinrestorer", "easyauth"]
+             "building-wands", "simple-voice-chat", "emotecraft", "skinrestorer", "easyauth"]
 
 if __name__ == "__main__":
     loader = json.load(urllib.request.urlopen(urllib.request.Request(

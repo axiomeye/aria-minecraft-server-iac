@@ -1,0 +1,13 @@
+name = "Cobblemon Environment Interactions"
+filename = "cobblemon-environment-interactions-fabric-3.1.0-fabric.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/Gso5otOx/versions/onC7fUVF/cobblemon-environment-interactions-fabric-3.1.0-fabric.jar"
+hash-format = "sha512"
+hash = "52f558f1e81a27db7dc1c61ecc5d74dd65c387d5cf30feeaaf1ab139e379dbc94c859d01f685cc5e7775fb5d373eaf2dce1ade7f02dbd2cae9359c89dd313d1e"
+
+[update]
+[update.modrinth]
+mod-id = "Gso5otOx"
+version = "onC7fUVF"
