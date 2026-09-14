@@ -154,6 +154,49 @@ def toml_escape(s):
     return s.replace("\\", "\\\\").replace('"', '\\"')
 
 
+def build_client_extras(world, mc, slugs, lock, update):
+    """Pin the client-only mods and write packs/<world>/client-extras.json.
+
+    These stay out of the packwiz pack on purpose: the server neither needs nor
+    installs them, and adding them would change the pack hash for no reason.
+    Players get them from the Drive zip instead, so the manifest exists to make
+    that zip rebuildable rather than a pile of hand-downloaded jars.
+
+    Dependencies are deliberately NOT resolved here. This is a flat, curated
+    list that mirrors a known-good install: the Iris build is paired with a
+    specific Sodium build by hand after the two resolved independently to an
+    incompatible pair, and anything these genuinely need (Fabric API) is already
+    in the pack. Resolving transitively would re-introduce that pairing bug and
+    duplicate pack mods into the client folder.
+    """
+    print(f"\n--- {world} client extras")
+    manifest, new_lock = {}, {}
+    for name in slugs:
+        slug = resolve_slug(name)
+        v, is_fresh = pick_version(slug, mc, lock, update)
+        if v is None:
+            print(f"  !! {slug}: no fabric build for {mc} - SKIPPED")
+            continue
+        p = project(slug)
+        f = primary_file(v)
+        new_lock[slug] = v["id"]
+        manifest[slug] = {
+            "name": p["title"],
+            "filename": f["filename"],
+            "url": f["url"],
+            "sha512": f["hashes"]["sha512"],
+            "version": v["version_number"],
+        }
+        mark = "*" if is_fresh else " "
+        print(f" {mark} {p['title'][:38]:<40} {v['version_number'][:22]}")
+
+    path = os.path.join(OUT_ROOT, world, "client-extras.json")
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(manifest, fh, indent=2, sort_keys=True)
+        fh.write("\n")
+    return new_lock
+
+
 def build(world, mc, loader_version, names, lock, update):
     print(f"\n=== {world}  (Minecraft {mc})")
     resolved, forced_both, new_lock, fresh = collect(names, mc, lock, update)
@@ -243,6 +286,17 @@ COBBLEMON = ["cobblemon", "cobbreeding", "rctmod", "cobblemon-mega-showdown",
              "trinkets", "easy-anvils", "double-doors", "cooking-for-blockheads", "treechop",
              "building-wands", "simple-voice-chat", "emotecraft", "skinrestorer", "easyauth"]
 
+# Client-only quality-of-life mods. Not in the packwiz packs -- the server does
+# not install them; they reach players through the Drive zip. Pinned all the
+# same, so a local install can be rebuilt from scratch instead of re-downloaded
+# by hand. See build_client_extras for why these are not dependency-resolved.
+CLIENT_EXTRAS = {
+    "latest": ["sodium", "iris", "modmenu", "lambdynamiclights", "betterf3",
+               "explosive-enhancement", "voxy"],
+    "cobblemon": ["sodium", "iris", "modmenu", "lambdynamiclights", "betterf3",
+                  "explosive-enhancement", "noisium"],
+}
+
 WORLDS = [("latest", "26.2", LATEST), ("cobblemon", "1.21.1", COBBLEMON)]
 
 if __name__ == "__main__":
@@ -255,9 +309,13 @@ if __name__ == "__main__":
 
     lock = {}
     if os.path.exists(LOCK_PATH):
-        with open(LOCK_PATH, encoding="utf-8") as fh:
+        # utf-8-sig: PowerShell's Set-Content -Encoding utf8 prepends a BOM,
+        # which json.load rejects. Tolerate it so a hand-edit on Windows does
+        # not break the build.
+        with open(LOCK_PATH, encoding="utf-8-sig") as fh:
             lock = json.load(fh)
     worlds_lock = lock.get("worlds", {})
+    extras_lock = lock.get("client-extras", {})
 
     loader = lock.get("fabric-loader")
     if not loader or "*" in update or "fabric-loader" in update:
@@ -265,13 +323,18 @@ if __name__ == "__main__":
             "https://meta.fabricmc.net/v2/versions/loader", headers=UA)))[0]["version"]
     print("fabric loader:", loader)
 
-    new_worlds = {}
+    new_worlds, new_extras = {}, {}
     for world, mc, names in WORLDS:
         new_worlds[world] = build(world, mc, loader, names,
                                   worlds_lock.get(world, {}), update)
+        new_extras[world] = build_client_extras(
+            world, mc, CLIENT_EXTRAS.get(world, []),
+            extras_lock.get(world, {}), update)
 
     with open(LOCK_PATH, "w", encoding="utf-8", newline="\n") as fh:
-        json.dump({"fabric-loader": loader, "worlds": new_worlds},
-                  fh, indent=2, sort_keys=True)
+        json.dump({"fabric-loader": loader, "worlds": new_worlds,
+                   "client-extras": new_extras}, fh, indent=2, sort_keys=True)
         fh.write("\n")
-    print(f"\nlock.json: {sum(len(w) for w in new_worlds.values())} pinned builds")
+    total = sum(len(w) for w in new_worlds.values()) \
+        + sum(len(w) for w in new_extras.values())
+    print(f"\nlock.json: {total} pinned builds")

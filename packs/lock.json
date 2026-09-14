@@ -1,4 +1,24 @@
 {
+  "client-extras": {
+    "cobblemon": {
+      "betterf3": "phATjGhF",
+      "explosive-enhancement": "LEeJnb8j",
+      "iris": "A99vfwJc",
+      "lambdynamiclights": "ksaGCvSu",
+      "modmenu": "v6Xx3fbU",
+      "noisium": "4sGQgiu2",
+      "sodium": "26nVNc41"
+    },
+    "latest": {
+      "betterf3": "6zNdg01Z",
+      "explosive-enhancement": "q9vZmPqg",
+      "iris": "oaD6KQls",
+      "lambdynamiclights": "XVsaQXSm",
+      "modmenu": "WdLLrOzD",
+      "sodium": "2Yom1N68",
+      "voxy": "LzyXnE51"
+    }
+  },
   "fabric-loader": "0.19.5",
   "worlds": {
     "cobblemon": {
