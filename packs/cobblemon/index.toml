@@ -91,11 +91,6 @@ hash = "ee057daa85d289dc2a860fcb7108d19d4b355235348498de63892daa262ec277"
 metafile = true
 
 [[files]]
-file = "mods/cobblemon-move-inspector.pw.toml"
-hash = "784184013f308a4fbec92b2ab5610969ca33ec547fd953fcc9d50cd2095d63e2"
-metafile = true
-
-[[files]]
 file = "mods/cobblemon-smartphone.pw.toml"
 hash = "91986edc20151860aeca66b7c9dc01fb226ad71392d6f02ffc639b8d315b3190"
 metafile = true
