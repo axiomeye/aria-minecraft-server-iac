@@ -2,14 +2,28 @@
 
 packwiz has no tagged releases and there is no Go toolchain here, so the pack
 files are emitted directly. Format reference: packwiz.infra.link/reference/pack-format.
-Required dependencies are resolved recursively so the curated lists only need
-to name top-level mods.
+Required dependencies are resolved recursively so the curated lists below only
+need to name top-level mods.
+
+Every resolved build is pinned in lock.json, so rebuilding reproduces the pack
+byte for byte instead of silently adopting whatever Modrinth published since.
+That silent drift is not hypothetical: it is how Cobblemon Raid Dens -- whose
+newest build predates Cobblemon 1.8 and calls a Showdown method that release
+removed -- reached the server and killed it at datapack load. Bump on purpose:
+
+    python build.py                       # honour the lock
+    python build.py --update              # re-resolve everything to newest
+    python build.py --update lithium jei  # re-resolve only these
+
+A mod dropped from the curated lists also drops out of the lock, since the lock
+is rebuilt from what the lists actually resolve to.
 """
 import hashlib, json, os, sys, urllib.request, urllib.parse
 
 UA = {"User-Agent": "aria-minecraft-server-iac/1.0 (pack builder)"}
 # Packs are written next to this script (packs/<world>/), not into a subdir.
 OUT_ROOT = os.path.dirname(os.path.abspath(__file__))
+LOCK_PATH = os.path.join(OUT_ROOT, "lock.json")
 
 
 def api(path):
@@ -53,6 +67,29 @@ def newest_version(slug, mc):
     return vs[0]
 
 
+def pinned_version(version_id):
+    """Fetch one exact build by id. None if it is no longer on Modrinth."""
+    try:
+        return api("/version/" + version_id)
+    except Exception:
+        return None
+
+
+def pick_version(slug, mc, lock, update):
+    """The locked build if we have one, else the newest.
+
+    Returns (version, is_fresh). is_fresh marks a build that was resolved now
+    rather than taken from the lock, so the build log can show what moved.
+    """
+    pin = lock.get(slug)
+    if pin and not ("*" in update or slug in update):
+        v = pinned_version(pin)
+        if v is not None:
+            return v, False
+        print(f"  !! {slug}: pinned build {pin} is gone from Modrinth - re-resolving")
+    return newest_version(slug, mc), True
+
+
 def side_of(p):
     """Modrinth client_side/server_side -> packwiz side."""
     c, s = p.get("client_side"), p.get("server_side")
@@ -70,22 +107,22 @@ def primary_file(v):
     return v["files"][0]
 
 
-def collect(names, mc):
-    """Resolve names + required deps -> {slug: (project, version, forced_both)}.
+def collect(names, mc, lock, update):
+    """Resolve names + required deps -> ({slug: (project, version)}, ...).
 
-    forced_both is True for anything reached only as a *required* dependency
-    of something in our list. Fabric Loader enforces a mod's declared
-    `depends` on whichever side loads that mod, regardless of what the
-    dependency's own Modrinth client_side/server_side fields claim about
-    itself -- those describe whether the dependency is USEFUL standalone on
-    a server, not whether the loader will tolerate its absence. Every
-    top-level name we pass in here is server content, so any required
-    dependency must load on the server too, or the server refuses to boot.
-    (Found the hard way: CobbleFurnies requires Athena, whose own listing
-    says server-unsupported; marking Athena client-only crashed the server
-    with "which is missing!" at startup.)
+    forced_both holds anything reached only as a *required* dependency of
+    something in our list. Fabric Loader enforces a mod's declared `depends` on
+    whichever side loads that mod, regardless of what the dependency's own
+    Modrinth client_side/server_side fields claim about itself -- those describe
+    whether the dependency is USEFUL standalone on a server, not whether the
+    loader will tolerate its absence. Every top-level name we pass in here is
+    server content, so any required dependency must load on the server too, or
+    the server refuses to boot. (Found the hard way: CobbleFurnies requires
+    Athena, whose own listing says server-unsupported; marking Athena
+    client-only crashed the server with "which is missing!" at startup.)
     """
     out, queue, seen, forced_both = {}, [(n, False) for n in names], set(), set()
+    new_lock, fresh = {}, {}
     while queue:
         name, is_dep = queue.pop(0)
         slug = resolve_slug(name)
@@ -94,11 +131,13 @@ def collect(names, mc):
         if slug in seen:
             continue
         seen.add(slug)
-        v = newest_version(slug, mc)
+        v, is_fresh = pick_version(slug, mc, lock, update)
         if v is None:
             print(f"  !! {slug}: no fabric build for {mc} - SKIPPED")
             continue
         out[slug] = (project(slug), v)
+        new_lock[slug] = v["id"]
+        fresh[slug] = is_fresh
         for d in v.get("dependencies", []):
             if d.get("dependency_type") != "required":
                 continue
@@ -108,16 +147,16 @@ def collect(names, mc):
                     queue.append((project(pid)["slug"], True))
                 except Exception:
                     print(f"  !! {slug}: unresolvable dependency {pid}")
-    return out, forced_both
+    return out, forced_both, new_lock, fresh
 
 
 def toml_escape(s):
     return s.replace("\\", "\\\\").replace('"', '\\"')
 
 
-def build(world, mc, loader_version, names):
+def build(world, mc, loader_version, names, lock, update):
     print(f"\n=== {world}  (Minecraft {mc})")
-    resolved, forced_both = collect(names, mc)
+    resolved, forced_both, new_lock, fresh = collect(names, mc, lock, update)
     out_dir = os.path.join(OUT_ROOT, world)
     mods_dir = os.path.join(out_dir, "mods")
     os.makedirs(mods_dir, exist_ok=True)
@@ -152,7 +191,8 @@ def build(world, mc, loader_version, names):
         with open(path, "w", encoding="utf-8", newline="\n") as fh:
             fh.write(body)
         index_entries.append((rel, hashlib.sha256(body.encode()).hexdigest()))
-        print(f"  {p['title'][:38]:<40} {v['version_number'][:22]:<24} {side}")
+        mark = "*" if fresh.get(slug) else " "
+        print(f" {mark} {p['title'][:38]:<40} {v['version_number'][:22]:<24} {side}")
 
     index = 'hash-format = "sha256"\n\n' + "".join(
         f'[[files]]\nfile = "{rel}"\nhash = "{h}"\nmetafile = true\n\n'
@@ -180,8 +220,10 @@ def build(world, mc, loader_version, names):
     for slug in resolved:
         actual = "both" if (side_of(resolved[slug][0]) == "client" and slug in forced_both) else side_of(resolved[slug][0])
         sides[actual] = sides.get(actual, 0) + 1
-    print(f"  -> {len(resolved)} mods  ({sides})")
-    return len(resolved)
+    moved = sum(1 for s in fresh.values() if s)
+    print(f"  -> {len(resolved)} mods  ({sides})"
+          + (f"  [{moved} resolved fresh, marked *]" if moved else "  [all pinned]"))
+    return new_lock
 
 
 LATEST = ["lithium", "krypton", "clumps", "chunky", "terralith", "tectonic",
@@ -201,9 +243,35 @@ COBBLEMON = ["cobblemon", "cobbreeding", "rctmod", "cobblemon-mega-showdown",
              "trinkets", "easy-anvils", "double-doors", "cooking-for-blockheads", "treechop",
              "building-wands", "simple-voice-chat", "emotecraft", "skinrestorer", "easyauth"]
 
+WORLDS = [("latest", "26.2", LATEST), ("cobblemon", "1.21.1", COBBLEMON)]
+
 if __name__ == "__main__":
-    loader = json.load(urllib.request.urlopen(urllib.request.Request(
-        "https://meta.fabricmc.net/v2/versions/loader", headers=UA)))[0]["version"]
+    args = sys.argv[1:]
+    update = set()
+    if "--update" in args:
+        rest = [a for a in args[args.index("--update") + 1:] if not a.startswith("-")]
+        update = set(rest) if rest else {"*"}
+        print("updating:", " ".join(sorted(update)) if rest else "everything")
+
+    lock = {}
+    if os.path.exists(LOCK_PATH):
+        with open(LOCK_PATH, encoding="utf-8") as fh:
+            lock = json.load(fh)
+    worlds_lock = lock.get("worlds", {})
+
+    loader = lock.get("fabric-loader")
+    if not loader or "*" in update or "fabric-loader" in update:
+        loader = json.load(urllib.request.urlopen(urllib.request.Request(
+            "https://meta.fabricmc.net/v2/versions/loader", headers=UA)))[0]["version"]
     print("fabric loader:", loader)
-    build("latest", "26.2", loader, LATEST)
-    build("cobblemon", "1.21.1", loader, COBBLEMON)
+
+    new_worlds = {}
+    for world, mc, names in WORLDS:
+        new_worlds[world] = build(world, mc, loader, names,
+                                  worlds_lock.get(world, {}), update)
+
+    with open(LOCK_PATH, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump({"fabric-loader": loader, "worlds": new_worlds},
+                  fh, indent=2, sort_keys=True)
+        fh.write("\n")
+    print(f"\nlock.json: {sum(len(w) for w in new_worlds.values())} pinned builds")
