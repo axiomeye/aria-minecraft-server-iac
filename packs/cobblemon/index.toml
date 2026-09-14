@@ -106,11 +106,6 @@ hash = "f190c0dc949c9961922684ee604177450130ec683985effb30529cdfa77941c6"
 metafile = true
 
 [[files]]
-file = "mods/cobblemonraiddens.pw.toml"
-hash = "3e1c0b09e95b7f03d678877aad15abb9a12f9e3427e35c93a25d074ee188b794"
-metafile = true
-
-[[files]]
 file = "mods/cobblepedia.pw.toml"
 hash = "9ad38f6af18aa40e336f51314f6262cd0a8f3b6e2864f0216c5815efa71f4273"
 metafile = true
@@ -163,11 +158,6 @@ metafile = true
 [[files]]
 file = "mods/forge-config-api-port.pw.toml"
 hash = "238b3ceb4214a682480ce00eefae5d34efa299ff6ff667e4b2f2ed503c6e76ee"
-metafile = true
-
-[[files]]
-file = "mods/geckolib.pw.toml"
-hash = "3d26ad5d3f7693336b18c894f37978f7490d284f7f3b19b46d0527a7938789fc"
 metafile = true
 
 [[files]]
