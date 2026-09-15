@@ -1,5 +1,6 @@
 {
   "betterf3": {
+    "dir": "mods",
     "filename": "BetterF3-19.0.0-Fabric-26.2.jar",
     "name": "BetterF3",
     "sha512": "5da2f586b32b133f3098abca62905d9e2eecb8a6723bea5902def879dca17443b4dcf767d1ac48b28c77af3e0a13e80d445120c68c9e0c03e0b9ae2c8048dc4b",
@@ -7,6 +8,7 @@
     "version": "19.0.0"
   },
   "explosive-enhancement": {
+    "dir": "mods",
     "filename": "explosive-enhancement-1.4.2-26.2.jar",
     "name": "Explosive Enhancement",
     "sha512": "c500699ec9b9059b2e7a40f216694dadd9d7d54cf7cb7b556e9cdc650cd842ee61bcef462cc31fc5884261ae64976dde13c57588938666cbc2caf8c3af9f9f3a",
@@ -14,6 +16,7 @@
     "version": "1.4.2-26.2"
   },
   "iris": {
+    "dir": "mods",
     "filename": "iris-fabric-1.11.2+mc26.2.jar",
     "name": "Iris Shaders",
     "sha512": "c1b46bcd1a0068deab3ae364a7229d31e27b7d45aea960e47503b8514354426badf83f354529db35d83e6b55727a53895fb9f13085e51d8148ee6765affac924",
@@ -21,6 +24,7 @@
     "version": "1.11.2+26.2-fabric"
   },
   "journeymap-web-map": {
+    "dir": "mods",
     "filename": "journeymap-webmap-fabric-26.2-1.0.13.jar",
     "name": "JourneyMap  Web Map",
     "sha512": "f09528deec1ff614d7393ccaf0e57721e0f72a1a589bc0160cd73e0b747ddd23b4522b8608c735e9141b2f67becf077203e9a4aa6fe88b4ef61364781cd68500",
@@ -28,6 +32,7 @@
     "version": "26.2-1.0.13+fabric"
   },
   "lambdynamiclights": {
+    "dir": "mods",
     "filename": "lambdynamiclights-4.12.4+26.2.jar",
     "name": "LambDynamicLights - Dynamic Lights",
     "sha512": "1e7c2abf18f4364cc8802c3ce21f9cbadd62074c1cf9829c025fe0d8dd04b6c7b47ca8fe6783b2399939fda0e40001d43dd82b6bced43546e9c26622ef3708c2",
@@ -35,6 +40,7 @@
     "version": "4.12.4+26.2"
   },
   "modmenu": {
+    "dir": "mods",
     "filename": "modmenu-20.0.2.jar",
     "name": "Mod Menu",
     "sha512": "9baebd229ff5a0a377a0269f2a8783dd9bde682b0773d9ce380dedf61b214676f1d13b9904e84403afb418c13d3ee23c3120e09032c53cb4c762091af1a4b0fb",
@@ -42,6 +48,7 @@
     "version": "20.0.2"
   },
   "sodium": {
+    "dir": "mods",
     "filename": "sodium-fabric-0.9.1+mc26.2.jar",
     "name": "Sodium",
     "sha512": "627fbf9625a4b94693c789c84a0686ffe558c0b1ecbeccf2602a903caafa9e126548b644282aa9c391dc798930d378724a383bea6b4397c5294d59ba5c0a6936",
@@ -49,6 +56,7 @@
     "version": "mc26.2-0.9.1-fabric"
   },
   "voxy": {
+    "dir": "mods",
     "filename": "voxy-0.2.19-beta.jar",
     "name": "voxy",
     "sha512": "9071acefff00f952b049134f7ee8b5c8be27646ade992274f9a32e4adf7ad0932f9755530fa212a8e65cc23b3ed5dc643af139be83fcb89c778d8c8e723b9c3a",

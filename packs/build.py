@@ -54,8 +54,8 @@ def resolve_slug(name):
     return hits[0]["slug"]
 
 
-def newest_version(slug, mc):
-    vs = api(f"/project/{slug}/version?loaders=%5B%22fabric%22%5D"
+def newest_version(slug, mc, loader="fabric"):
+    vs = api(f"/project/{slug}/version?loaders=%5B%22{loader}%22%5D"
              f"&game_versions=%5B%22{urllib.parse.quote(mc)}%22%5D")
     if not vs:
         return None
@@ -75,7 +75,7 @@ def pinned_version(version_id):
         return None
 
 
-def pick_version(slug, mc, lock, update):
+def pick_version(slug, mc, lock, update, loader="fabric"):
     """The locked build if we have one, else the newest.
 
     Returns (version, is_fresh). is_fresh marks a build that was resolved now
@@ -87,7 +87,7 @@ def pick_version(slug, mc, lock, update):
         if v is not None:
             return v, False
         print(f"  !! {slug}: pinned build {pin} is gone from Modrinth - re-resolving")
-    return newest_version(slug, mc), True
+    return newest_version(slug, mc, loader), True
 
 
 def side_of(p):
@@ -173,14 +173,19 @@ def build_client_extras(world, mc, slugs, lock, update):
     manifest, new_lock = {}, {}
     for name in slugs:
         slug = resolve_slug(name)
-        v, is_fresh = pick_version(slug, mc, lock, update)
-        if v is None:
-            print(f"  !! {slug}: no fabric build for {mc} - SKIPPED")
-            continue
         p = project(slug)
+        # Resource packs are published under the "minecraft" loader, not
+        # "fabric", and install into resourcepacks/ rather than mods/.
+        is_pack = p["project_type"] == "resourcepack"
+        loader = "minecraft" if is_pack else "fabric"
+        v, is_fresh = pick_version(slug, mc, lock, update, loader)
+        if v is None:
+            print(f"  !! {slug}: no {loader} build for {mc} - SKIPPED")
+            continue
         f = primary_file(v)
         new_lock[slug] = v["id"]
         manifest[slug] = {
+            "dir": "resourcepacks" if is_pack else "mods",
             "name": p["title"],
             "filename": f["filename"],
             "url": f["url"],
@@ -294,7 +299,9 @@ CLIENT_EXTRAS = {
     "latest": ["sodium", "iris", "modmenu", "lambdynamiclights", "betterf3",
                "explosive-enhancement", "voxy", "journeymap-web-map"],
     "cobblemon": ["sodium", "iris", "modmenu", "lambdynamiclights", "betterf3",
-                  "explosive-enhancement", "noisium", "journeymap-web-map"],
+                  "explosive-enhancement", "noisium", "journeymap-web-map",
+                  # Reactive Music plays the music pack; YACL is its config lib.
+                  "reactive-music", "yacl", "cobblemon-music-pack"],
 }
 
 WORLDS = [("latest", "26.2", LATEST), ("cobblemon", "1.21.1", COBBLEMON)]
