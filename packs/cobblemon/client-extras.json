@@ -20,6 +20,13 @@
     "url": "https://cdn.modrinth.com/data/YL57xq9U/versions/A99vfwJc/iris-fabric-1.8.7%2Bmc1.21.1.jar",
     "version": "1.8.7+1.21.1-fabric"
   },
+  "journeymap-web-map": {
+    "filename": "journeymap-webmap-fabric-1.21.4-1.0.11.jar",
+    "name": "JourneyMap  Web Map",
+    "sha512": "5e2c8a85e31a71b6258e87efdc84e24525830052ef9a76f34442fb23ad76922c8bc2b0d44e03b7ae1db56aa0fe0894278bc8956180d08c1abb9a6b9f47565ad6",
+    "url": "https://cdn.modrinth.com/data/YaZ1fUTg/versions/vf5VmlQP/journeymap-webmap-fabric-1.21.4-1.0.11.jar",
+    "version": "1.21.4-1.0.11+fabric"
+  },
   "lambdynamiclights": {
     "filename": "lambdynamiclights-4.8.11+1.21.1.jar",
     "name": "LambDynamicLights - Dynamic Lights",

@@ -292,9 +292,9 @@ COBBLEMON = ["cobblemon", "cobbreeding", "rctmod", "cobblemon-mega-showdown",
 # by hand. See build_client_extras for why these are not dependency-resolved.
 CLIENT_EXTRAS = {
     "latest": ["sodium", "iris", "modmenu", "lambdynamiclights", "betterf3",
-               "explosive-enhancement", "voxy"],
+               "explosive-enhancement", "voxy", "journeymap-web-map"],
     "cobblemon": ["sodium", "iris", "modmenu", "lambdynamiclights", "betterf3",
-                  "explosive-enhancement", "noisium"],
+                  "explosive-enhancement", "noisium", "journeymap-web-map"],
 }
 
 WORLDS = [("latest", "26.2", LATEST), ("cobblemon", "1.21.1", COBBLEMON)]
