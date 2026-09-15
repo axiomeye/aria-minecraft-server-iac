@@ -300,8 +300,8 @@ CLIENT_EXTRAS = {
                "explosive-enhancement", "voxy", "journeymap-web-map"],
     "cobblemon": ["sodium", "iris", "modmenu", "lambdynamiclights", "betterf3",
                   "explosive-enhancement", "noisium", "journeymap-web-map",
-                  # Reactive Music plays the music pack; YACL is its config lib.
-                  "reactive-music", "yacl", "cobblemon-music-pack"],
+                  # Resource packs replacing vanilla music; no mod required.
+                  "puffradio", "cobblemon-musicpack"],
 }
 
 WORLDS = [("latest", "26.2", LATEST), ("cobblemon", "1.21.1", COBBLEMON)]

@@ -7,13 +7,13 @@
     "url": "https://cdn.modrinth.com/data/8shC1gFX/versions/phATjGhF/BetterF3-11.0.3-Fabric-1.21.1.jar",
     "version": "11.0.3"
   },
-  "cobblemon-music-pack": {
+  "cobblemon-musicpack": {
     "dir": "resourcepacks",
-    "filename": "jor'sCobbelemonMuiscPack2.0.zip",
-    "name": "jor's Cobblemon Music Pack (Reactive Music)",
-    "sha512": "93eb30409fd36d98342cd4f947d81507aca73abc42bd8e49e2b86f9ff00157cefe4ee4c16dcbb0651e9a1dde98467d2cc4bf46dda33b46aa27cf9ae8876d5130",
-    "url": "https://cdn.modrinth.com/data/8Ly9MKJa/versions/rZ65sYGB/jor%27sCobbelemonMuiscPack2.0.zip",
-    "version": "2.0"
+    "filename": "Cobblemon Music Pack.zip",
+    "name": "Cobblemon Music Pack",
+    "sha512": "e1acf881f548318b2698cbd0bf0d0c802ef59859da50de6ce2f4ab24c1fdfb104b1be540eb2b3f027a92f733d2249bfe20dec5da6bc119476042af30ee77c31d",
+    "url": "https://cdn.modrinth.com/data/bZoVzO1I/versions/OzeMMPtu/Cobblemon%20Music%20Pack.zip",
+    "version": "1.2.1"
   },
   "explosive-enhancement": {
     "dir": "mods",
@@ -63,13 +63,13 @@
     "url": "https://cdn.modrinth.com/data/KuNKN7d2/versions/4sGQgiu2/noisium-fabric-2.3.0%2Bmc1.21-1.21.1.jar",
     "version": "2.3.0+mc1.21-1.21.1"
   },
-  "reactive-music": {
-    "dir": "mods",
-    "filename": "reactivemusic-fabric-1.3.5+1.21.1.jar",
-    "name": "Reactive Music",
-    "sha512": "769f1fee926c8aa0c33f0a4030c8e938e9ff317bbde3c5e1258137b2528e215d0696be9ad9482cc8e83830b848766a12fe802527a213c890051006ce809b2f58",
-    "url": "https://cdn.modrinth.com/data/Bqnfeesx/versions/CdeSdetl/reactivemusic-fabric-1.3.5%2B1.21.1.jar",
-    "version": "1.3.5+1.21.1-fabric"
+  "puffradio": {
+    "dir": "resourcepacks",
+    "filename": "PuffRadio1.5.zip",
+    "name": "Puff Radio",
+    "sha512": "90029852e6e578398617fdf52a2ec63cc3f690f6fb54bed6e88e10afc1bdc76dcebdd46a8032ee49a398cd6ddf99b253d9517ab243fb19b140f31b02f517640f",
+    "url": "https://cdn.modrinth.com/data/YLcccJCk/versions/kQo3ZR9T/PuffRadio1.5.zip",
+    "version": "1.5"
   },
   "sodium": {
     "dir": "mods",
@@ -78,13 +78,5 @@
     "sha512": "892728b3c26038446b9f573695db9e791fa320994ed34f89be5c766fa2e735b46adb9efa8f6688d5a5b7bb8e9793ff09e72f06fb5ff074137d5b833f1fe27227",
     "url": "https://cdn.modrinth.com/data/AANobbMI/versions/26nVNc41/sodium-fabric-0.6.9%2Bmc1.21.1.jar",
     "version": "mc1.21.1-0.6.9-fabric"
-  },
-  "yacl": {
-    "dir": "mods",
-    "filename": "yet_another_config_lib_v3-3.8.2+1.21.1-fabric.jar",
-    "name": "YetAnotherConfigLib (YACL)",
-    "sha512": "353169f85fa63e73ce9bdd0d4ddce54e3cbc4d71153a93c982f74c68fd93325986663f94fc2f2b10f4427e8b15a0485c608c5587b3840d933204b50ea4cb6d4c",
-    "url": "https://cdn.modrinth.com/data/1eAoo2KR/versions/o3cDn8Vp/yet_another_config_lib_v3-3.8.2%2B1.21.1-fabric.jar",
-    "version": "3.8.2+1.21.1-fabric"
   }
 }
