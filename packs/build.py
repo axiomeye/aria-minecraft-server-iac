@@ -301,7 +301,9 @@ CLIENT_EXTRAS = {
     "cobblemon": ["sodium", "iris", "modmenu", "lambdynamiclights", "betterf3",
                   "explosive-enhancement", "noisium", "journeymap-web-map",
                   # Resource packs replacing vanilla music; no mod required.
-                  "puffradio", "cobblemon-musicpack"],
+                  "puffradio", "cobblemon-musicpack",
+                  # Battle Tracks needs Cobblemon Intros for its non-looping intros.
+                  "cobblemon-intros", "cobblemon-battle-tracks"],
 }
 
 WORLDS = [("latest", "26.2", LATEST), ("cobblemon", "1.21.1", COBBLEMON)]

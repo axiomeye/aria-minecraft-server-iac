@@ -7,6 +7,22 @@
     "url": "https://cdn.modrinth.com/data/8shC1gFX/versions/phATjGhF/BetterF3-11.0.3-Fabric-1.21.1.jar",
     "version": "11.0.3"
   },
+  "cobblemon-battle-tracks": {
+    "dir": "resourcepacks",
+    "filename": "Battle Tracks v1.2.zip",
+    "name": "Cobblemon Battle Tracks",
+    "sha512": "3a3538fbb272c9f56a4426a7a9500ffde76e94cbdd2941507b1c4dfeaa05878b6c5533269cab3696c7369b796d597f65c73c949a6039f255637a50abad033d23",
+    "url": "https://cdn.modrinth.com/data/1GY5Eip3/versions/QuFotxpR/Battle%20Tracks%20v1.2.zip",
+    "version": "1.2"
+  },
+  "cobblemon-intros": {
+    "dir": "mods",
+    "filename": "CobblemonIntros-1.0.0.jar",
+    "name": "Cobblemon Intros",
+    "sha512": "4c5b9ed003b0b9940d9cfc90944402d0a0042c83092e9de5861da5539f1adf15229c860ca505e4e72d79c69a19703cc74ec35916bf60bdd9a02b637fec39e94e",
+    "url": "https://cdn.modrinth.com/data/gG3mz6AL/versions/FQY0xvNo/CobblemonIntros-1.0.0.jar",
+    "version": "1.0.0"
+  },
   "cobblemon-musicpack": {
     "dir": "resourcepacks",
     "filename": "Cobblemon Music Pack.zip",
