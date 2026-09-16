@@ -1,0 +1,32 @@
+name: report preemption
+run-name: report preemption [${{ github.event.client_payload.world || 'classic' }}]
+
+on:
+  repository_dispatch:
+    types: [preempted]
+
+concurrency:
+  group: report-preemption-${{ github.event.client_payload.world || 'classic' }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    name: "Notify"
+    runs-on: ubuntu-24.04
+    environment: aria-production
+
+    steps:
+      - name: Send telegram message
+        uses: appleboy/telegram-action@221e6b684967abe813051ee4a37dd61770a83ad3 # v1.0.1
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ⚡ ${{ github.event.client_payload.world }} was shut down by Google
+
+            Spot VMs get reclaimed when capacity is needed. The world was saved
+            and nothing is lost. Start it again from the panel -- it will get a
+            new IP address.
