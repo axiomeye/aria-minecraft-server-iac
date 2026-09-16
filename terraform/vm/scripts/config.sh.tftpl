@@ -62,7 +62,16 @@ cat > /opt/scripts/report_boot_failure.sh <<'ARIA_EOF_BOOT_FAIL'
 ${report_boot_failure_sh}
 ARIA_EOF_BOOT_FAIL
 
+cat > /opt/scripts/watch_preemption.sh <<'ARIA_EOF_PREEMPT'
+${watch_preemption_sh}
+ARIA_EOF_PREEMPT
+
 chmod +x /opt/scripts/*.sh
+
+# Start watching for preemption straight away, before the long apt/docker/mod
+# work below: a Spot VM can be reclaimed at any point, including mid-boot, and
+# that is exactly the case where nobody would otherwise get told anything.
+nohup bash /opt/scripts/watch_preemption.sh </dev/null &>/dev/null &
 
 # Mods are supplied per-world:
 #   classic   - the frozen set already on the disk (mods/manifest-1.20.1.json)

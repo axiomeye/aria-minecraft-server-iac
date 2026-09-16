@@ -61,6 +61,7 @@ resource "google_compute_instance" "aria_server" {
       send_ip_address_sh     = file("${path.module}/scripts/vm/send_ip_address.sh")
       welcome_message_sh     = file("${path.module}/scripts/vm/welcome_message.sh")
       report_boot_failure_sh = file("${path.module}/scripts/vm/report_boot_failure.sh")
+      watch_preemption_sh    = file("${path.module}/scripts/vm/watch_preemption.sh")
     })
     shutdown-script = file("${path.module}/scripts/shutdown.sh")
   }
