@@ -124,10 +124,18 @@ case "${jvm_flags}" in
   *)       echo "WARNING: unknown jvm_flags '${jvm_flags}', running untuned" ;;
 esac
 
+# ONLINE_MODE=false is required for SKLauncher players, but it also means
+# anyone who finds the IP can connect under any name and register it with
+# EasyAuth. The whitelist is the only thing that stops that, so enforce it from
+# whitelist.json on the data disk. EXISTING_WHITELIST_FILE=SYNCHRONIZE keeps
+# the file authoritative -- without it the image would overwrite the disk copy
+# on every boot and the in-game /whitelist add commands would be lost.
 docker run --privileged -d -v "$MOUNT_POINT":/data \
     -e TYPE=FABRIC -e MEMORY=${memory} -e DEBUG=true -e PVP=false \
     -e ENABLE_AUTOSTOP=TRUE -e AUTOSTOP_TIMEOUT_EST=350 \
     -e AUTOSTOP_TIMEOUT_INIT=1800 -e ONLINE_MODE=false \
+    -e ENABLE_WHITELIST=TRUE -e ENFORCE_WHITELIST=TRUE \
+    -e EXISTING_WHITELIST_FILE=SYNCHRONIZE \
     -e VERSION=${mc_version} -e MOTD="Welcome to ${server_name}" \
     "$${PACKWIZ_ARGS[@]}" "$${JVM_FLAG_ARGS[@]}" \
     -p 25565:25565 -e EULA=TRUE --name mc \
