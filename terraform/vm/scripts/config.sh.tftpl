@@ -107,6 +107,20 @@ apt-get update
 # Install docker packages
 apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
+# Mods that cannot go through the public packwiz pack: CurseForge-only and All
+# Rights Reserved (FTB Quests/Library/Teams, needed by Cobblemon Quests
+# Reloaded). They live in the private bucket and are copied onto the data disk
+# before the container starts, so the server never boots without them. The
+# bucket has public access prevention enforced; only aria-server-sa reads it.
+# packwiz-installer leaves jars it did not install alone, so these survive its
+# sync. Absent prefix for a world is normal and simply copies nothing.
+MANUAL_MODS="gs://aria-minecraft-server/manual-mods/${world}/"
+if gcloud storage ls "$MANUAL_MODS" >/dev/null 2>&1; then
+  mkdir -p "$MOUNT_POINT/mods"
+  gcloud storage cp "$MANUAL_MODS*.jar" "$MOUNT_POINT/mods/" \
+    || echo "WARNING: could not copy manual mods from $MANUAL_MODS"
+fi
+
 # Run Minecraft docker image
 PACKWIZ_ARGS=()
 if [ -n "${packwiz_url}" ]; then

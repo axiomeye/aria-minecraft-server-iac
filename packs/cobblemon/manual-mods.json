@@ -1,5 +1,5 @@
 {
-    "_note":  "CurseForge-only, All Rights Reserved: not redistributed via the public pack. Download from the source URL, verify sha512, place in mods/ on the server data disk and in the client zip. packwiz-installer leaves unmanaged jars alone.",
+    "_note":  "CurseForge-only, All Rights Reserved: not published in the public pack. Server: stored in gs://aria-minecraft-server/manual-mods/cobblemon/ (private) and copied onto the data disk by config.sh before the container starts. Client: included in the Drive zip. Pinned by sha512 below.",
     "ftblibrary":  {
                        "filename":  "ftb-library-fabric-2101.1.36.jar",
                        "sha512":  "a7b4da3a7a6a0e04625bdbc487cf8dda81c0203ba683641265c2077a67add0ad0491da0abc2976beb9cd277c779a8293f9e5917bb1ffce2af1745c29c61fa773",
