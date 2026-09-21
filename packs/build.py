@@ -291,6 +291,10 @@ COBBLEMON = ["cobblemon", "cobbreeding", "rctmod", "cobblemon-mega-showdown",
              "cobblemon-badgebox", "cobblefurnies",
              "cobblemon-environment-interactions", "cobblepedia",
              "catch-rate-display", "berry-pouch", "pokebelt-cobblemon", "cobbleworkers",
+             # Needs FTB Quests/Library/Teams at runtime. Those are CurseForge-
+             # only and All Rights Reserved, so they are not in this pack: see
+             # cobblemon/manual-mods.json for how they get onto server and client.
+             "cobblemon-quest-reloaded",
              "lithium", "krypton", "clumps",
              "jei", "jade", "journeymap", "waystones", "travelersbackpack",
              "trinkets", "easy-anvils", "double-doors", "cooking-for-blockheads", "treechop",

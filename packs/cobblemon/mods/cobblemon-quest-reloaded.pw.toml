@@ -1,0 +1,13 @@
+name = "Cobblemon Quests Reloaded"
+filename = "cobblemon_quests-reloaded-[1.21.1]-fabric-2.0.1+1.8.0.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/agTMcrPN/versions/PP5hMZla/cobblemon_quests-reloaded-%5B1.21.1%5D-fabric-2.0.1%2B1.8.0.jar"
+hash-format = "sha512"
+hash = "3444912e8b53d820e4c79ee5cf08575cb258b20465b977040f211b3173c8b2ff7d4d21d5423c34375bce3cf2553bf74fe82dc4c4a007a9f14b6dcb7fa6511aae"
+
+[update]
+[update.modrinth]
+mod-id = "agTMcrPN"
+version = "PP5hMZla"
