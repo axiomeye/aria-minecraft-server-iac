@@ -114,12 +114,17 @@ def collect(names, mc, lock, update):
     something in our list. Fabric Loader enforces a mod's declared `depends` on
     whichever side loads that mod, regardless of what the dependency's own
     Modrinth client_side/server_side fields claim about itself -- those describe
-    whether the dependency is USEFUL standalone on a server, not whether the
-    loader will tolerate its absence. Every top-level name we pass in here is
-    server content, so any required dependency must load on the server too, or
-    the server refuses to boot. (Found the hard way: CobbleFurnies requires
-    Athena, whose own listing says server-unsupported; marking Athena
-    client-only crashed the server with "which is missing!" at startup.)
+    whether the dependency is USEFUL standalone on that side, not whether the
+    loader will tolerate its absence. So a required dependency has to ship
+    wherever its dependent ships, and since our dependents are side=both, that
+    means both -- in either direction:
+
+      - server-unsupported dep: CobbleFurnies requires Athena, listed
+        server-unsupported; leaving it off the server crashed startup with
+        "which is missing!".
+      - client-unsupported dep: Terralith and Tectonic require Lithostitched,
+        listed client-unsupported; leaving it out of the client zip made the
+        launcher refuse to start with the same complaint.
     """
     out, queue, seen, forced_both = {}, [(n, False) for n in names], set(), set()
     new_lock, fresh = {}, {}
@@ -217,8 +222,8 @@ def build(world, mc, loader_version, names, lock, update):
         f = primary_file(v)
         sha512 = f["hashes"]["sha512"]
         side = side_of(p)
-        if side == "client" and slug in forced_both:
-            print(f"  !! {p['title']}: Modrinth lists it client-only, but it's a "
+        if side != "both" and slug in forced_both:
+            print(f"  !! {p['title']}: Modrinth lists it {side}-only, but it's a "
                   f"required dependency here -- forcing side=both")
             side = "both"
         body = (
@@ -266,7 +271,7 @@ def build(world, mc, loader_version, names, lock, update):
 
     sides = {}
     for slug in resolved:
-        actual = "both" if (side_of(resolved[slug][0]) == "client" and slug in forced_both) else side_of(resolved[slug][0])
+        actual = "both" if slug in forced_both else side_of(resolved[slug][0])
         sides[actual] = sides.get(actual, 0) + 1
     moved = sum(1 for s in fresh.values() if s)
     print(f"  -> {len(resolved)} mods  ({sides})"
