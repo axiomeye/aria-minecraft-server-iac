@@ -106,6 +106,11 @@ hash = "9ad38f6af18aa40e336f51314f6262cd0a8f3b6e2864f0216c5815efa71f4273"
 metafile = true
 
 [[files]]
+file = "mods/cobbleworkers.pw.toml"
+hash = "7ed33902d60afc07c11283bdc16c47b3a2eb6fb589b61f9c924f6973c8d11af7"
+metafile = true
+
+[[files]]
 file = "mods/cobbreeding.pw.toml"
 hash = "8f472ad517afe778fa8afbc7d84bad9f69e0e4ff9e83d2d2fca57b006d242b4c"
 metafile = true
@@ -176,6 +181,11 @@ hash = "c4e45594c8d1ab3dacc3b49142f16fb253178dd31d97cc917bf4a4d54f21e081"
 metafile = true
 
 [[files]]
+file = "mods/lavender.pw.toml"
+hash = "7dc27df21d8bd6b4e5387592063817c7de24a7e3ce8c90bb6bf3a9e22199d5e5"
+metafile = true
+
+[[files]]
 file = "mods/lithium.pw.toml"
 hash = "e10e639f71700a67d7f9b9d747e1685f838d703dadd432464b54e31b26f4742b"
 metafile = true
@@ -188,6 +198,11 @@ metafile = true
 [[files]]
 file = "mods/patchouli.pw.toml"
 hash = "c0fb35b9b9754549845f905fa6651d7edc5227599bb4e32c4829ca1a975cd93e"
+metafile = true
+
+[[files]]
+file = "mods/pokebelt-cobblemon.pw.toml"
+hash = "3af228651b35a90f4f7815ea54c14802fb5d044661e0790a19bbdf646a87fa39"
 metafile = true
 
 [[files]]

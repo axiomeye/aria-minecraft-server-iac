@@ -290,7 +290,7 @@ COBBLEMON = ["cobblemon", "cobbreeding", "rctmod", "cobblemon-mega-showdown",
              "cobblemon-battle-tower", "cobblemon-cobblestats", "cobblemonextrastructures",
              "cobblemon-badgebox", "cobblefurnies",
              "cobblemon-environment-interactions", "cobblepedia",
-             "catch-rate-display", "berry-pouch",
+             "catch-rate-display", "berry-pouch", "pokebelt-cobblemon", "cobbleworkers",
              "lithium", "krypton", "clumps",
              "jei", "jade", "journeymap", "waystones", "travelersbackpack",
              "trinkets", "easy-anvils", "double-doors", "cooking-for-blockheads", "treechop",
@@ -308,7 +308,8 @@ CLIENT_EXTRAS = {
                   # Resource packs replacing vanilla music; no mod required.
                   "puffradio", "cobblemon-musicpack",
                   # Battle Tracks needs Cobblemon Intros for its non-looping intros.
-                  "cobblemon-intros", "cobblemon-battle-tracks"],
+                  "cobblemon-intros", "cobblemon-battle-tracks",
+                  "cobblemon-party-extras"],
 }
 
 WORLDS = [("latest", "26.2", LATEST), ("cobblemon", "1.21.1", COBBLEMON)]
