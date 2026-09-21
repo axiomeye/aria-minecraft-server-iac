@@ -177,7 +177,12 @@ if [ "$CRASHED" = "1" ]; then
   # is done with bash's own substitution rather than sed: this exact sed
   # invocation reliably breaks under Git Bash/MSYS argument mangling in local
   # testing, and bash parameter expansion needs no external process anyway.
-  CRASH_LOG=$(docker logs mc 2>&1 | tail -40 | tr '\t' ' ' | tr '\r' ' ' | tr '\n' '|')
+  # Telegram rejects anything over 4096 characters, and a Java stack trace
+  # blows past that easily -- a 40-line tail of the 26.2 java21 crash made the
+  # report-boot-failure workflow fail outright, so the crash was reported by
+  # nothing at all. Keep the tail short and hard-cap the length; the last lines
+  # are the ones naming the cause anyway.
+  CRASH_LOG=$(docker logs mc 2>&1 | tail -12 | tr '\t' ' ' | tr '\r' ' ' | tr '\n' '|' | tail -c 1200)
   CRASH_LOG="$${CRASH_LOG//\\/\\\\}"
   CRASH_LOG="$${CRASH_LOG//\"/\\\"}"
   bash /opt/scripts/report_boot_failure.sh "$CRASH_LOG"

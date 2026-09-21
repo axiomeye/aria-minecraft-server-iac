@@ -67,10 +67,13 @@ locals {
       machine_type = "n2-custom-4-8192"
       memory       = "6G"
       mc_version   = "26.2"
-      image_tag    = "java21"
-      jvm_flags    = "meowice"
-      packwiz_url  = "https://axiomeye.github.io/aria-minecraft-server-iac/packs/latest/pack.toml"
-      server_name  = "AriA Latest Minecraft"
+      // Minecraft 26.2's server bundler is compiled for Java 25 (class file
+      // version 69). On java21 Fabric dies instantly with
+      // UnsupportedClassVersionError and the VM auto-destroys itself.
+      image_tag   = "java25"
+      jvm_flags   = "meowice"
+      packwiz_url = "https://axiomeye.github.io/aria-minecraft-server-iac/packs/latest/pack.toml"
+      server_name = "AriA Latest Minecraft"
     }
   }
 
