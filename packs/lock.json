@@ -6,15 +6,14 @@
       "cobblemon-intros": "FQY0xvNo",
       "cobblemon-musicpack": "OzeMMPtu",
       "cobblemon-party-extras": "400k4IK0",
+      "distanthorizons": "Ez3cx7Yd",
       "explosive-enhancement": "LEeJnb8j",
       "iris": "A99vfwJc",
       "lambdynamiclights": "ksaGCvSu",
       "modmenu": "v6Xx3fbU",
       "noisium": "4sGQgiu2",
       "puffradio": "kQo3ZR9T",
-      "sodium": "26nVNc41",
-      "xaeros-minimap": "ZD6hK4GV",
-      "xaeros-world-map": "txl9KURC"
+      "sodium": "26nVNc41"
     },
     "latest": {
       "betterf3": "6zNdg01Z",
@@ -23,9 +22,7 @@
       "lambdynamiclights": "XVsaQXSm",
       "modmenu": "WdLLrOzD",
       "sodium": "2Yom1N68",
-      "voxy": "LzyXnE51",
-      "xaeros-minimap": "VlMbRW2O",
-      "xaeros-world-map": "q0Wvp46X"
+      "voxy": "LzyXnE51"
     }
   },
   "fabric-loader": "0.19.5",
@@ -66,9 +63,11 @@
       "forge-config-api-port": "N5qzq0XV",
       "jade": "adpNvTZS",
       "jei": "EO4u1E2G",
+      "journeymap": "i7LuKuDl",
       "krypton": "Acz3ttTp",
       "lavender": "gdB0WW0x",
       "lithium": "N08Z8wog",
+      "lithostitched": "eN30OQaU",
       "owo-lib": "JB1fLQnc",
       "patchouli": "XIjNwQkI",
       "pokebelt-cobblemon": "6BCT9c6x",
@@ -77,6 +76,9 @@
       "rctmod": "jdUENp3C",
       "simple-voice-chat": "VS5X7jZd",
       "skinrestorer": "xE07fxaw",
+      "streams-reflowing": "gSukvyYC",
+      "tectonic": "WdDiEKMn",
+      "terralith": "eWDLFabb",
       "travelersbackpack": "npKsvQvE",
       "treechop": "YK5sxWxT",
       "trinkets": "JagCscwi",
@@ -99,6 +101,7 @@
       "fwa": "56h6sbKt",
       "jade": "ue8CO97w",
       "jei": "d3HeviSL",
+      "journeymap": "tbOrSD59",
       "krypton": "5WeL0Nkz",
       "lithium": "f7vZ0VWU",
       "lithostitched": "3MjBSbla",

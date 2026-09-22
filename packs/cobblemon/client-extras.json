@@ -39,6 +39,14 @@
     "url": "https://cdn.modrinth.com/data/x2wZP9kQ/versions/400k4IK0/cobblemon_party_extras-fabric-1.8.15.jar",
     "version": "1.8.15"
   },
+  "distanthorizons": {
+    "dir": "mods",
+    "filename": "DistantHorizons-3.3.2-1.21.1-fabric-neoforge.jar",
+    "name": "Distant Horizons",
+    "sha512": "758d9591bb63a7851d368b6439135ec35ceb3b22e35723fca26433c4069be87c4098a23e8fc590be61903ac92e6ae1e3e1adf5beb744e6226c1fe70dd1933011",
+    "url": "https://cdn.modrinth.com/data/uCdwusMi/versions/Ez3cx7Yd/DistantHorizons-3.3.2-1.21.1-fabric-neoforge.jar",
+    "version": "3.3.2-1.21.1"
+  },
   "explosive-enhancement": {
     "dir": "mods",
     "filename": "explosive-enhancement-1.3.2-1.21-1.21.1.jar",
@@ -94,21 +102,5 @@
     "sha512": "892728b3c26038446b9f573695db9e791fa320994ed34f89be5c766fa2e735b46adb9efa8f6688d5a5b7bb8e9793ff09e72f06fb5ff074137d5b833f1fe27227",
     "url": "https://cdn.modrinth.com/data/AANobbMI/versions/26nVNc41/sodium-fabric-0.6.9%2Bmc1.21.1.jar",
     "version": "mc1.21.1-0.6.9-fabric"
-  },
-  "xaeros-minimap": {
-    "dir": "mods",
-    "filename": "xaerominimap-fabric-1.21.1-26.5.0.jar",
-    "name": "Xaero's Minimap",
-    "sha512": "0064c7f0a947717e8cdc22f83ecea077dc9f38c3a83d699d6d5ff41bd7f02700e4ad9b012636369210f4f9dfee35e39b8aad340488448104aca45395642dd136",
-    "url": "https://cdn.modrinth.com/data/1bokaNcj/versions/ZD6hK4GV/xaerominimap-fabric-1.21.1-26.5.0.jar",
-    "version": "fabric-1.21.1-26.5.0"
-  },
-  "xaeros-world-map": {
-    "dir": "mods",
-    "filename": "xaeroworldmap-fabric-1.21.1-1.46.0.jar",
-    "name": "Xaero's World Map",
-    "sha512": "afca4f2f3ce3cc7e23df94447486fcc44fdb1f569c472fb0eed9f5c9961543ac3184a84b2058311b1d75d4b4071547e5703bbd90208208e8ad262ba308304a80",
-    "url": "https://cdn.modrinth.com/data/NcUtCpym/versions/txl9KURC/xaeroworldmap-fabric-1.21.1-1.46.0.jar",
-    "version": "fabric-1.21.1-1.46.0"
   }
 }

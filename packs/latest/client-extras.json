@@ -54,21 +54,5 @@
     "sha512": "9071acefff00f952b049134f7ee8b5c8be27646ade992274f9a32e4adf7ad0932f9755530fa212a8e65cc23b3ed5dc643af139be83fcb89c778d8c8e723b9c3a",
     "url": "https://cdn.modrinth.com/data/fxxUqruK/versions/LzyXnE51/voxy-0.2.19-beta.jar",
     "version": "0.2.19-beta"
-  },
-  "xaeros-minimap": {
-    "dir": "mods",
-    "filename": "xaerominimap-fabric-26.2-26.5.1.jar",
-    "name": "Xaero's Minimap",
-    "sha512": "ceee38ce9f7dac967b7ff42eb940c00cc50596b0d9da8401a59b55be904fee703d91a72ea00d0e235f33c7fe5d75f7804ac055de92d34b0873cbc1043a101c0d",
-    "url": "https://cdn.modrinth.com/data/1bokaNcj/versions/VlMbRW2O/xaerominimap-fabric-26.2-26.5.1.jar",
-    "version": "fabric-26.2-26.5.1"
-  },
-  "xaeros-world-map": {
-    "dir": "mods",
-    "filename": "xaeroworldmap-fabric-26.2-1.46.1.jar",
-    "name": "Xaero's World Map",
-    "sha512": "9e9747a3a7ee4ad1c00944c3c922895044a77f5a5d9a8a12eb012676dae66e3800440d7f4a1603e788bfdc2cef8a42be74e42dd01985c94f9073c80b00309775",
-    "url": "https://cdn.modrinth.com/data/NcUtCpym/versions/q0Wvp46X/xaeroworldmap-fabric-26.2-1.46.1.jar",
-    "version": "fabric-26.2-1.46.1"
   }
 }

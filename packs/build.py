@@ -288,7 +288,7 @@ def build(world, mc, loader_version, names, lock, update):
 
 LATEST = ["lithium", "krypton", "clumps", "chunky", "terralith", "tectonic",
           "streams-reflowing", "fwa", "jei", "jade",
-          "waystones", "easy-anvils", "travelersbackpack",
+          "journeymap", "waystones", "easy-anvils", "travelersbackpack",
           "better-combat", "runes", "simple-voice-chat", "emotecraft",
           "skinrestorer", "easyauth"]
 
@@ -303,13 +303,16 @@ COBBLEMON = ["cobblemon", "cobbreeding", "rctmod", "cobblemon-mega-showdown",
              # cobblemon/manual-mods.json for how they get onto server and client.
              "cobblemon-quest-reloaded",
              "lithium", "krypton", "clumps",
-             "jei", "jade", "waystones", "travelersbackpack",
+             "jei", "jade", "journeymap", "waystones", "travelersbackpack",
              "trinkets", "easy-anvils", "double-doors", "cooking-for-blockheads", "treechop",
              "building-wands", "simple-voice-chat", "emotecraft", "skinrestorer", "easyauth",
              # Admin tool for moving/backing up terrain (the sky-island move).
              # Newest 1.21.1 build is 7.3.8 (Oct 2024) -- WorldEdit moved on to
              # newer MC versions and never released again for 1.21.1.
-             "worldedit"]
+             "worldedit",
+             # Terrain generation (same set as latest). Lithostitched comes in as
+             # their dependency.
+             "terralith", "tectonic", "streams-reflowing"]
 
 # Client-only quality-of-life mods. Not in the packwiz packs -- the server does
 # not install them; they reach players through the Drive zip. Pinned all the
@@ -317,9 +320,13 @@ COBBLEMON = ["cobblemon", "cobbreeding", "rctmod", "cobblemon-mega-showdown",
 # by hand. See build_client_extras for why these are not dependency-resolved.
 CLIENT_EXTRAS = {
     "latest": ["sodium", "iris", "modmenu", "lambdynamiclights", "betterf3",
-               "explosive-enhancement", "voxy", "xaeros-minimap", "xaeros-world-map"],
+               "explosive-enhancement", "voxy"],
     "cobblemon": ["sodium", "iris", "modmenu", "lambdynamiclights", "betterf3",
-                  "explosive-enhancement", "noisium", "xaeros-minimap", "xaeros-world-map",
+                  "explosive-enhancement", "noisium",
+                  # LOD far terrain. Client-only on purpose: without DH on the
+                  # server it only renders chunks you've already been near.
+                  # Voxy has no 1.21.1 build, hence DH here.
+                  "distanthorizons",
                   # Resource packs replacing vanilla music; no mod required.
                   "puffradio", "cobblemon-musicpack",
                   # Battle Tracks needs Cobblemon Intros for its non-looping intros.
