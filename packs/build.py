@@ -298,7 +298,11 @@ COBBLEMON = ["cobblemon", "cobbreeding", "rctmod", "cobblemon-mega-showdown",
              "lithium", "krypton", "clumps",
              "jei", "jade", "journeymap", "waystones", "travelersbackpack",
              "trinkets", "easy-anvils", "double-doors", "cooking-for-blockheads", "treechop",
-             "building-wands", "simple-voice-chat", "emotecraft", "skinrestorer", "easyauth"]
+             "building-wands", "simple-voice-chat", "emotecraft", "skinrestorer", "easyauth",
+             # Admin tool for moving/backing up terrain (the sky-island move).
+             # Newest 1.21.1 build is 7.3.8 (Oct 2024) -- WorldEdit moved on to
+             # newer MC versions and never released again for 1.21.1.
+             "worldedit"]
 
 # Client-only quality-of-life mods. Not in the packwiz packs -- the server does
 # not install them; they reach players through the Drive zip. Pinned all the

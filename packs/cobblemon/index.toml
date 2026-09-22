@@ -260,3 +260,8 @@ file = "mods/wild-battle-api.pw.toml"
 hash = "33c55b3295464916bfea16af156b2a87f4441186446d90fbba1d373f64a74140"
 metafile = true
 
+[[files]]
+file = "mods/worldedit.pw.toml"
+hash = "de999f6cc4c2f344e324b4f331fa9767844c31463c6e8066fcd67b613338ab8c"
+metafile = true
+
