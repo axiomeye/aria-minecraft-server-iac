@@ -207,6 +207,13 @@ def build_client_extras(world, mc, slugs, lock, update):
     return new_lock
 
 
+# Slugs where Modrinth's own client_side/server_side fields don't reflect how
+# we actually use the mod, so side_of()'s default would be wrong. WorldEdit
+# lists as unknown/unknown (defaults to "both"); we drive it entirely by RCON
+# from the server console, so no player needs the client-side jar.
+SIDE_OVERRIDE = {"worldedit": "server"}
+
+
 def build(world, mc, loader_version, names, lock, update):
     print(f"\n=== {world}  (Minecraft {mc})")
     resolved, forced_both, new_lock, fresh = collect(names, mc, lock, update)
@@ -221,7 +228,7 @@ def build(world, mc, loader_version, names, lock, update):
         p, v = resolved[slug]
         f = primary_file(v)
         sha512 = f["hashes"]["sha512"]
-        side = side_of(p)
+        side = SIDE_OVERRIDE.get(slug, side_of(p))
         if side != "both" and slug in forced_both:
             print(f"  !! {p['title']}: Modrinth lists it {side}-only, but it's a "
                   f"required dependency here -- forcing side=both")
