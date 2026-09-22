@@ -8,22 +8,24 @@
       "cobblemon-party-extras": "400k4IK0",
       "explosive-enhancement": "LEeJnb8j",
       "iris": "A99vfwJc",
-      "journeymap-web-map": "vf5VmlQP",
       "lambdynamiclights": "ksaGCvSu",
       "modmenu": "v6Xx3fbU",
       "noisium": "4sGQgiu2",
       "puffradio": "kQo3ZR9T",
-      "sodium": "26nVNc41"
+      "sodium": "26nVNc41",
+      "xaeros-minimap": "ZD6hK4GV",
+      "xaeros-world-map": "txl9KURC"
     },
     "latest": {
       "betterf3": "6zNdg01Z",
       "explosive-enhancement": "q9vZmPqg",
       "iris": "oaD6KQls",
-      "journeymap-web-map": "mnuK4oU1",
       "lambdynamiclights": "XVsaQXSm",
       "modmenu": "WdLLrOzD",
       "sodium": "2Yom1N68",
-      "voxy": "LzyXnE51"
+      "voxy": "LzyXnE51",
+      "xaeros-minimap": "VlMbRW2O",
+      "xaeros-world-map": "q0Wvp46X"
     }
   },
   "fabric-loader": "0.19.5",
@@ -64,7 +66,6 @@
       "forge-config-api-port": "N5qzq0XV",
       "jade": "adpNvTZS",
       "jei": "EO4u1E2G",
-      "journeymap": "qmuZAgdA",
       "krypton": "Acz3ttTp",
       "lavender": "gdB0WW0x",
       "lithium": "N08Z8wog",
@@ -98,7 +99,6 @@
       "fwa": "56h6sbKt",
       "jade": "ue8CO97w",
       "jei": "d3HeviSL",
-      "journeymap": "SQsKHZAV",
       "krypton": "5WeL0Nkz",
       "lithium": "f7vZ0VWU",
       "lithostitched": "3MjBSbla",

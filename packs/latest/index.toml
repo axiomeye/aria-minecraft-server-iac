@@ -71,11 +71,6 @@ hash = "67a1afd24a7e99b679750be58900d395e888aea045b1e2b938e836db07deae2c"
 metafile = true
 
 [[files]]
-file = "mods/journeymap.pw.toml"
-hash = "739f7840415963583b64755dcbf822a3bdb5af0b57187f83b7f7e57403470774"
-metafile = true
-
-[[files]]
 file = "mods/krypton.pw.toml"
 hash = "e922d7300eba8cfbd9aa31ba475cf6fcbcf11d74e89a0314ada18d58f08a2634"
 metafile = true

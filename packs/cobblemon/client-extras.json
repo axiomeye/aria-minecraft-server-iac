@@ -55,14 +55,6 @@
     "url": "https://cdn.modrinth.com/data/YL57xq9U/versions/A99vfwJc/iris-fabric-1.8.7%2Bmc1.21.1.jar",
     "version": "1.8.7+1.21.1-fabric"
   },
-  "journeymap-web-map": {
-    "dir": "mods",
-    "filename": "journeymap-webmap-fabric-1.21.4-1.0.11.jar",
-    "name": "JourneyMap  Web Map",
-    "sha512": "5e2c8a85e31a71b6258e87efdc84e24525830052ef9a76f34442fb23ad76922c8bc2b0d44e03b7ae1db56aa0fe0894278bc8956180d08c1abb9a6b9f47565ad6",
-    "url": "https://cdn.modrinth.com/data/YaZ1fUTg/versions/vf5VmlQP/journeymap-webmap-fabric-1.21.4-1.0.11.jar",
-    "version": "1.21.4-1.0.11+fabric"
-  },
   "lambdynamiclights": {
     "dir": "mods",
     "filename": "lambdynamiclights-4.8.11+1.21.1.jar",
@@ -102,5 +94,21 @@
     "sha512": "892728b3c26038446b9f573695db9e791fa320994ed34f89be5c766fa2e735b46adb9efa8f6688d5a5b7bb8e9793ff09e72f06fb5ff074137d5b833f1fe27227",
     "url": "https://cdn.modrinth.com/data/AANobbMI/versions/26nVNc41/sodium-fabric-0.6.9%2Bmc1.21.1.jar",
     "version": "mc1.21.1-0.6.9-fabric"
+  },
+  "xaeros-minimap": {
+    "dir": "mods",
+    "filename": "xaerominimap-fabric-1.21.1-26.5.0.jar",
+    "name": "Xaero's Minimap",
+    "sha512": "0064c7f0a947717e8cdc22f83ecea077dc9f38c3a83d699d6d5ff41bd7f02700e4ad9b012636369210f4f9dfee35e39b8aad340488448104aca45395642dd136",
+    "url": "https://cdn.modrinth.com/data/1bokaNcj/versions/ZD6hK4GV/xaerominimap-fabric-1.21.1-26.5.0.jar",
+    "version": "fabric-1.21.1-26.5.0"
+  },
+  "xaeros-world-map": {
+    "dir": "mods",
+    "filename": "xaeroworldmap-fabric-1.21.1-1.46.0.jar",
+    "name": "Xaero's World Map",
+    "sha512": "afca4f2f3ce3cc7e23df94447486fcc44fdb1f569c472fb0eed9f5c9961543ac3184a84b2058311b1d75d4b4071547e5703bbd90208208e8ad262ba308304a80",
+    "url": "https://cdn.modrinth.com/data/NcUtCpym/versions/txl9KURC/xaeroworldmap-fabric-1.21.1-1.46.0.jar",
+    "version": "fabric-1.21.1-1.46.0"
   }
 }

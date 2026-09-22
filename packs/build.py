@@ -281,7 +281,7 @@ def build(world, mc, loader_version, names, lock, update):
 
 LATEST = ["lithium", "krypton", "clumps", "chunky", "terralith", "tectonic",
           "streams-reflowing", "fwa", "jei", "jade",
-          "journeymap", "waystones", "easy-anvils", "travelersbackpack",
+          "waystones", "easy-anvils", "travelersbackpack",
           "better-combat", "runes", "simple-voice-chat", "emotecraft",
           "skinrestorer", "easyauth"]
 
@@ -296,7 +296,7 @@ COBBLEMON = ["cobblemon", "cobbreeding", "rctmod", "cobblemon-mega-showdown",
              # cobblemon/manual-mods.json for how they get onto server and client.
              "cobblemon-quest-reloaded",
              "lithium", "krypton", "clumps",
-             "jei", "jade", "journeymap", "waystones", "travelersbackpack",
+             "jei", "jade", "waystones", "travelersbackpack",
              "trinkets", "easy-anvils", "double-doors", "cooking-for-blockheads", "treechop",
              "building-wands", "simple-voice-chat", "emotecraft", "skinrestorer", "easyauth",
              # Admin tool for moving/backing up terrain (the sky-island move).
@@ -310,9 +310,9 @@ COBBLEMON = ["cobblemon", "cobbreeding", "rctmod", "cobblemon-mega-showdown",
 # by hand. See build_client_extras for why these are not dependency-resolved.
 CLIENT_EXTRAS = {
     "latest": ["sodium", "iris", "modmenu", "lambdynamiclights", "betterf3",
-               "explosive-enhancement", "voxy", "journeymap-web-map"],
+               "explosive-enhancement", "voxy", "xaeros-minimap", "xaeros-world-map"],
     "cobblemon": ["sodium", "iris", "modmenu", "lambdynamiclights", "betterf3",
-                  "explosive-enhancement", "noisium", "journeymap-web-map",
+                  "explosive-enhancement", "noisium", "xaeros-minimap", "xaeros-world-map",
                   # Resource packs replacing vanilla music; no mod required.
                   "puffradio", "cobblemon-musicpack",
                   # Battle Tracks needs Cobblemon Intros for its non-looping intros.
