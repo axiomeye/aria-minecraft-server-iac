@@ -1,0 +1,13 @@
+name = "Legendary Summoning Cobblemon"
+filename = "LegendarySummoningv1.zip"
+side = "server"
+
+[download]
+url = "https://cdn.modrinth.com/data/DPHIDQ6V/versions/ekPhyQAl/LegendarySummoningv1.zip"
+hash-format = "sha512"
+hash = "a1ef9c6e8cac3ef58d3af51beb0cd2e846215a0ecfbcdb84b18d32f7b86e20b599e828109f7e9a0e47a7af84c50260aee2b215171f7ac49b107f8d94806b5a51"
+
+[update]
+[update.modrinth]
+mod-id = "DPHIDQ6V"
+version = "ekPhyQAl"

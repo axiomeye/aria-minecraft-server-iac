@@ -281,7 +281,7 @@ hash = "33c55b3295464916bfea16af156b2a87f4441186446d90fbba1d373f64a74140"
 metafile = true
 
 [[files]]
-file = "mods/worldedit.pw.toml"
-hash = "08d4775f8546564ad812b09062633ffc48f44b76328efe3832c021651af86b14"
+file = "world/datapacks/legendary-summoning-cobblemon.pw.toml"
+hash = "fb62b57d23d6e25b71486f1eb8ef23085d214d99284033df473ca0806534989f"
 metafile = true
 

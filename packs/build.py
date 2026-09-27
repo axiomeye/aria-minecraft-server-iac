@@ -207,14 +207,25 @@ def build_client_extras(world, mc, slugs, lock, update):
     return new_lock
 
 
-# Slugs where Modrinth's own client_side/server_side fields don't reflect how
-# we actually use the mod, so side_of()'s default would be wrong. WorldEdit
-# lists as unknown/unknown (defaults to "both"); we drive it entirely by RCON
-# from the server console, so no player needs the client-side jar.
-SIDE_OVERRIDE = {"worldedit": "server"}
+def metafile(p, v, side):
+    """The packwiz .pw.toml body for one Modrinth build."""
+    f = primary_file(v)
+    return (
+        f'name = "{toml_escape(p["title"])}"\n'
+        f'filename = "{toml_escape(f["filename"])}"\n'
+        f'side = "{side}"\n\n'
+        "[download]\n"
+        f'url = "{f["url"]}"\n'
+        'hash-format = "sha512"\n'
+        f'hash = "{f["hashes"]["sha512"]}"\n\n'
+        "[update]\n"
+        "[update.modrinth]\n"
+        f'mod-id = "{p["id"]}"\n'
+        f'version = "{v["id"]}"\n'
+    )
 
 
-def build(world, mc, loader_version, names, lock, update):
+def build(world, mc, loader_version, names, datapacks, lock, update):
     print(f"\n=== {world}  (Minecraft {mc})")
     resolved, forced_both, new_lock, fresh = collect(names, mc, lock, update)
     out_dir = os.path.join(OUT_ROOT, world)
@@ -222,30 +233,22 @@ def build(world, mc, loader_version, names, lock, update):
     os.makedirs(mods_dir, exist_ok=True)
     for f in os.listdir(mods_dir):
         os.remove(os.path.join(mods_dir, f))
+    # packwiz-installer runs in the container's /data, so a metafile under
+    # world/datapacks/ lands the zip in the world's datapacks folder.
+    dp_dir = os.path.join(out_dir, "world", "datapacks")
+    if os.path.isdir(dp_dir):
+        for f in os.listdir(dp_dir):
+            os.remove(os.path.join(dp_dir, f))
 
     index_entries = []
     for slug in sorted(resolved):
         p, v = resolved[slug]
-        f = primary_file(v)
-        sha512 = f["hashes"]["sha512"]
-        side = SIDE_OVERRIDE.get(slug, side_of(p))
+        side = side_of(p)
         if side != "both" and slug in forced_both:
             print(f"  !! {p['title']}: Modrinth lists it {side}-only, but it's a "
                   f"required dependency here -- forcing side=both")
             side = "both"
-        body = (
-            f'name = "{toml_escape(p["title"])}"\n'
-            f'filename = "{toml_escape(f["filename"])}"\n'
-            f'side = "{side}"\n\n'
-            "[download]\n"
-            f'url = "{f["url"]}"\n'
-            'hash-format = "sha512"\n'
-            f'hash = "{sha512}"\n\n'
-            "[update]\n"
-            "[update.modrinth]\n"
-            f'mod-id = "{p["id"]}"\n'
-            f'version = "{v["id"]}"\n'
-        )
+        body = metafile(p, v, side)
         rel = f"mods/{slug}.pw.toml"
         path = os.path.join(out_dir, rel)
         with open(path, "w", encoding="utf-8", newline="\n") as fh:
@@ -253,6 +256,26 @@ def build(world, mc, loader_version, names, lock, update):
         index_entries.append((rel, hashlib.sha256(body.encode()).hexdigest()))
         mark = "*" if fresh.get(slug) else " "
         print(f" {mark} {p['title'][:38]:<40} {v['version_number'][:22]:<24} {side}")
+
+    # Datapacks are published under the "datapack" loader and only the server
+    # reads them. Not dependency-resolved: their Modrinth deps are optional
+    # texture add-ons, never something the world fails to load without.
+    for name in datapacks:
+        slug = resolve_slug(name)
+        p = project(slug)
+        v, is_fresh = pick_version(slug, mc, lock, update, "datapack")
+        if v is None:
+            print(f"  !! {slug}: no datapack build for {mc} - SKIPPED")
+            continue
+        new_lock[slug] = v["id"]
+        body = metafile(p, v, "server")
+        rel = f"world/datapacks/{slug}.pw.toml"
+        os.makedirs(dp_dir, exist_ok=True)
+        with open(os.path.join(out_dir, rel), "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(body)
+        index_entries.append((rel, hashlib.sha256(body.encode()).hexdigest()))
+        mark = "*" if is_fresh else " "
+        print(f" {mark} {p['title'][:38]:<40} {v['version_number'][:22]:<24} datapack")
 
     index = 'hash-format = "sha256"\n\n' + "".join(
         f'[[files]]\nfile = "{rel}"\nhash = "{h}"\nmetafile = true\n\n'
@@ -306,10 +329,6 @@ COBBLEMON = ["cobblemon", "cobbreeding", "rctmod", "cobblemon-mega-showdown",
              "jei", "jade", "journeymap", "waystones", "travelersbackpack",
              "trinkets", "easy-anvils", "double-doors", "cooking-for-blockheads", "treechop",
              "building-wands", "simple-voice-chat", "emotecraft", "skinrestorer", "easyauth",
-             # Admin tool for moving/backing up terrain (the sky-island move).
-             # Newest 1.21.1 build is 7.3.8 (Oct 2024) -- WorldEdit moved on to
-             # newer MC versions and never released again for 1.21.1.
-             "worldedit",
              # Terrain generation (same set as latest). Lithostitched comes in as
              # their dependency.
              "terralith", "tectonic", "streams-reflowing"]
@@ -332,6 +351,13 @@ CLIENT_EXTRAS = {
                   # Battle Tracks needs Cobblemon Intros for its non-looping intros.
                   "cobblemon-intros", "cobblemon-battle-tracks",
                   "cobblemon-party-extras"],
+}
+
+# Server-side datapacks, installed into world/datapacks/ by packwiz.
+DATAPACKS = {
+    # Craftable items that summon legendaries in set biomes. The same zip is
+    # also a resource pack for the item textures, optional on the client.
+    "cobblemon": ["legendary-summoning-cobblemon"],
 }
 
 WORLDS = [("latest", "26.2", LATEST), ("cobblemon", "1.21.1", COBBLEMON)]
@@ -363,6 +389,7 @@ if __name__ == "__main__":
     new_worlds, new_extras = {}, {}
     for world, mc, names in WORLDS:
         new_worlds[world] = build(world, mc, loader, names,
+                                  DATAPACKS.get(world, []),
                                   worlds_lock.get(world, {}), update)
         new_extras[world] = build_client_extras(
             world, mc, CLIENT_EXTRAS.get(world, []),
