@@ -54,7 +54,7 @@ locals {
       // host these: it has uniform access with public access prevention enforced,
       // and weakening that would expose the Terraform state and mod mirror too.
       packwiz_url = "https://axiomeye.github.io/aria-minecraft-server-iac/packs/cobblemon/pack.toml"
-      server_name = "AriA Pokémon"
+      server_name = "AriAdos"
     }
 
     latest = {
