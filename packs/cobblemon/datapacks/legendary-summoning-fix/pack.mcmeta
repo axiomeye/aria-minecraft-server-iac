@@ -1,0 +1,6 @@
+{
+    "pack": {
+        "pack_format": 48,
+        "description": "Fixes for Legendary Summoning: per-player summon timer (spawns failed with 3+ players online), birds spawn beside the player"
+    }
+}

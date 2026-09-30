@@ -18,7 +18,7 @@ removed -- reached the server and killed it at datapack load. Bump on purpose:
 A mod dropped from the curated lists also drops out of the lock, since the lock
 is rebuilt from what the lists actually resolve to.
 """
-import hashlib, json, os, sys, urllib.request, urllib.parse
+import hashlib, io, json, os, sys, urllib.request, urllib.parse, zipfile
 
 UA = {"User-Agent": "aria-minecraft-server-iac/1.0 (pack builder)"}
 # Packs are written next to this script (packs/<world>/), not into a subdir.
@@ -225,6 +225,24 @@ def metafile(p, v, side):
     )
 
 
+def zip_dir(path):
+    """Zip a directory reproducibly: sorted entries, fixed timestamps, LF
+    line endings, so an unchanged source never changes the pack hash."""
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+        for root, dirs, files in os.walk(path):
+            dirs.sort()
+            for f in sorted(files):
+                full = os.path.join(root, f)
+                with open(full, "rb") as fh:
+                    data = fh.read().replace(b"\r\n", b"\n")
+                info = zipfile.ZipInfo(os.path.relpath(full, path).replace(os.sep, "/"),
+                                       date_time=(1980, 1, 1, 0, 0, 0))
+                info.compress_type = zipfile.ZIP_DEFLATED
+                zf.writestr(info, data)
+    return buf.getvalue()
+
+
 def build(world, mc, loader_version, names, datapacks, lock, update):
     print(f"\n=== {world}  (Minecraft {mc})")
     resolved, forced_both, new_lock, fresh = collect(names, mc, lock, update)
@@ -277,9 +295,25 @@ def build(world, mc, loader_version, names, datapacks, lock, update):
         mark = "*" if is_fresh else " "
         print(f" {mark} {p['title'][:38]:<40} {v['version_number'][:22]:<24} datapack")
 
+    # Our own datapacks, from packs/<world>/datapacks/<name>/. Zipped here and
+    # served from Pages as plain files rather than metafiles. The zz- prefix
+    # makes them load after the Modrinth packs, so their files win.
+    raw_entries = []
+    src_root = os.path.join(out_dir, "datapacks")
+    for name in sorted(os.listdir(src_root)) if os.path.isdir(src_root) else []:
+        data = zip_dir(os.path.join(src_root, name))
+        rel = f"world/datapacks/zz-{name}.zip"
+        os.makedirs(dp_dir, exist_ok=True)
+        with open(os.path.join(out_dir, rel), "wb") as fh:
+            fh.write(data)
+        raw_entries.append((rel, hashlib.sha256(data).hexdigest()))
+        print(f"   {name:<40} {'local':<24} datapack")
+
     index = 'hash-format = "sha256"\n\n' + "".join(
         f'[[files]]\nfile = "{rel}"\nhash = "{h}"\nmetafile = true\n\n'
-        for rel, h in index_entries)
+        for rel, h in index_entries) + "".join(
+        f'[[files]]\nfile = "{rel}"\nhash = "{h}"\n\n'
+        for rel, h in raw_entries)
     with open(os.path.join(out_dir, "index.toml"), "w", encoding="utf-8", newline="\n") as fh:
         fh.write(index)
 

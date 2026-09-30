@@ -285,3 +285,7 @@ file = "world/datapacks/legendary-summoning-cobblemon.pw.toml"
 hash = "fb62b57d23d6e25b71486f1eb8ef23085d214d99284033df473ca0806534989f"
 metafile = true
 
+[[files]]
+file = "world/datapacks/zz-legendary-summoning-fix.zip"
+hash = "9d1e39a6ddecaaef7c1d1167ab493a40f77ebbd2028b60c209a25fc3da80f557"
+
