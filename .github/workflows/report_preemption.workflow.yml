@@ -25,7 +25,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            ⚡ ${{ github.event.client_payload.world }} was shut down by Google
+            ⚡ ${{ fromJSON('{"classic":"AriA Classic","cobblemon":"AriAdos","latest":"AriA Latest Minecraft"}')[github.event.client_payload.world || 'classic'] }} was shut down by Google
 
             Spot VMs get reclaimed when capacity is needed. The world was saved
             and nothing is lost. Start it again from the panel -- it will get a

@@ -25,6 +25,6 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            ⚠️ ${{ github.event.client_payload.world }} failed to start
+            ⚠️ ${{ fromJSON('{"classic":"AriA Classic","cobblemon":"AriAdos","latest":"AriA Latest Minecraft"}')[github.event.client_payload.world || 'classic'] }} failed to start
 
             ${{ github.event.client_payload.reason }}
