@@ -1,6 +1,6 @@
 name = "Cobbleworkers"
 filename = "cobbleworkers-fabric-2.0.7+1.8.3.jar"
-side = "server"
+side = "both"
 
 [download]
 url = "https://cdn.modrinth.com/data/i3XVG2gn/versions/QKvjId4J/cobbleworkers-fabric-2.0.7%2B1.8.3.jar"

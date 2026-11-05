@@ -90,8 +90,17 @@ def pick_version(slug, mc, lock, update, loader="fabric"):
     return newest_version(slug, mc, loader), True
 
 
+# Modrinth's client_side/server_side is set by hand and goes stale. Cobbleworkers
+# is listed client-unsupported, but 2.0.7 registers an item
+# (worker_inventory_selector), so a client without it is kicked at login with
+# "Received unregistered entry". Anything here ships on both sides regardless.
+FORCE_BOTH = {"cobbleworkers"}
+
+
 def side_of(p):
     """Modrinth client_side/server_side -> packwiz side."""
+    if p.get("slug") in FORCE_BOTH:
+        return "both"
     c, s = p.get("client_side"), p.get("server_side")
     if s == "unsupported":
         return "client"
