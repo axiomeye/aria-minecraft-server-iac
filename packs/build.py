@@ -365,7 +365,18 @@ COBBLEMON = ["cobblemon", "cobbreeding", "rctmod", "cobblemon-mega-showdown",
              "building-wands", "simple-voice-chat", "emotecraft", "skinrestorer", "easyauth",
              # Terrain generation (same set as latest). Lithostitched comes in as
              # their dependency.
-             "terralith", "tectonic", "streams-reflowing"]
+             "terralith", "tectonic", "streams-reflowing",
+             # 2026-11-05 batch. Pasture Loot 2.0 needs Cobblemon >=1.8.4 and
+             # Synchro / ATM >=1.8.2, hence the Cobblemon bump that came with it.
+             # The MSD flavour of AllTheMons on purpose: plain AllTheMons
+             # declares `breaks: mega_showdown`. Pokemeteors was left out: its
+             # only build pins cobblemon <1.8.0. Cobblemon Legendary Sinnoh and
+             # Cobblemon Relics are CurseForge-only, see manual-mods.json.
+             "allthemons-x-mega-showdown-legacy", "cobblemon-stone-statues",
+             "legendary-monuments", "cobblemon-mount-slot",
+             "cobblemon-synchro-machine", "cobblemon-secret-base-trainer",
+             "cobblemon-pasture-loot", "cobblemon-trainer-structures",
+             "cobblemon-cities-structures", "ohmymeteors", "handcrafted"]
 
 # Client-only quality-of-life mods. Not in the packwiz packs -- the server does
 # not install them; they reach players through the Drive zip. Pinned all the
@@ -384,7 +395,9 @@ CLIENT_EXTRAS = {
                   "puffradio", "cobblemon-musicpack",
                   # Battle Tracks needs Cobblemon Intros for its non-looping intros.
                   "cobblemon-intros", "cobblemon-battle-tracks",
-                  "cobblemon-party-extras"],
+                  "cobblemon-party-extras",
+                  # Modrinth lists it server-unsupported: UI tweaks only.
+                  "more-cobblemon-tweaks"],
 }
 
 # Server-side datapacks, installed into world/datapacks/ by packwiz.

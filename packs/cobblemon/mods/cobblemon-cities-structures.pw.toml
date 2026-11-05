@@ -1,0 +1,13 @@
+name = "Cobblemon Cities & Structures"
+filename = "Cobblemon Cities & Structures-1.0.15.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/IqCPvv9e/versions/QFkxDH1m/Cobblemon%20Cities%20%26%20Structures-1.0.15.jar"
+hash-format = "sha512"
+hash = "e4bf440aee019e47e87841222d02b735e98538d2fddcce0704d07c054117da1a8c2fd37d326dcecfe9fc5797d8f3f765e59ba78b0f3ce3753aaf7b9aeaa950f5"
+
+[update]
+[update.modrinth]
+mod-id = "IqCPvv9e"
+version = "QFkxDH1m"

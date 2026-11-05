@@ -1,0 +1,13 @@
+name = "Cobblemon Mount Slot"
+filename = "cobblemountslot-1.1.0.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/YZZIO4FD/versions/S0lKlacI/cobblemountslot-1.1.0.jar"
+hash-format = "sha512"
+hash = "604f10b484e11158b1ca4264759d5d541618ac56adad265389161750397921441026d238218520bf49108673ba1597d4bcea1ad5697aa1279176930861d2253d"
+
+[update]
+[update.modrinth]
+mod-id = "YZZIO4FD"
+version = "S0lKlacI"

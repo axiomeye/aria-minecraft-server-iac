@@ -1,0 +1,13 @@
+name = "Oh My, Meteors! - A meteorites mod"
+filename = "ohmymeteors-1.5.0+1.21.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/O9ayDkK0/versions/HNuZ0dDo/ohmymeteors-1.5.0%2B1.21.jar"
+hash-format = "sha512"
+hash = "924e9a6eb3dfdc31a9955f7c51b0d0173d324bb08ab0a2c2af9a8b7912713d695ed54bfd3b6d1056786a9bb9054b8e0520f5017cd9ed6ffc31e4aef5357532ea"
+
+[update]
+[update.modrinth]
+mod-id = "O9ayDkK0"
+version = "HNuZ0dDo"

@@ -1,0 +1,13 @@
+name = "Cobblemon Pasture Loot"
+filename = "PastureLoot-fabric-2.0.0+1.21.1.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/XP2jcAo0/versions/catyYgS1/PastureLoot-fabric-2.0.0%2B1.21.1.jar"
+hash-format = "sha512"
+hash = "2e2d3a5ac110255a3f0565a452ab44442ac155f15fe2d430d551120944c252a9590b955eb80641f685e2fcc0132bf0c0499e2947d3ad0013783ec0f2f12d9f2e"
+
+[update]
+[update.modrinth]
+mod-id = "XP2jcAo0"
+version = "catyYgS1"

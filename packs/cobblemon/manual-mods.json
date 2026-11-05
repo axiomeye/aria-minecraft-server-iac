@@ -1,21 +1,33 @@
 {
-    "_note":  "CurseForge-only, All Rights Reserved: not published in the public pack. Server: stored in gs://aria-minecraft-server/manual-mods/cobblemon/ (private) and copied onto the data disk by config.sh before the container starts. Client: included in the Drive zip. Pinned by sha512 below.",
-    "ftblibrary":  {
-                       "filename":  "ftb-library-fabric-2101.1.36.jar",
-                       "sha512":  "a7b4da3a7a6a0e04625bdbc487cf8dda81c0203ba683641265c2077a67add0ad0491da0abc2976beb9cd277c779a8293f9e5917bb1ffce2af1745c29c61fa773",
-                       "source":  "https://www.curseforge.com/minecraft/mc-mods/ftb-library-fabric",
-                       "side":  "both"
-                   },
-    "ftbquests":  {
-                      "filename":  "ftb-quests-fabric-2101.1.36.jar",
-                      "sha512":  "0c298e60ddb0953751c41861ce60adfa3585a3a51757e246a826e926cd2eb96ef967f066ae2d04036e3706ec93d4397e5521d7133b791590dd9871aa6f0b66eb",
-                      "source":  "https://www.curseforge.com/minecraft/mc-mods/ftb-quests-fabric",
-                      "side":  "both"
-                  },
-    "ftbteams":  {
-                     "filename":  "ftb-teams-fabric-2101.1.11.jar",
-                     "sha512":  "04cd51e44c3c102932804876d673cb00201ca6e36fdd224167dd09d777955e62d5d03b061be30310049c6b7a676c0a82ed581082072073ea8e5ca68101233fb7",
-                     "source":  "https://www.curseforge.com/minecraft/mc-mods/ftb-teams-fabric",
-                     "side":  "both"
-                 }
+    "_note": "CurseForge-only (FTB and Relics All Rights Reserved; Legendary Sinnoh MIT but not on Modrinth): not published in the public pack. Server: stored in gs://aria-minecraft-server/manual-mods/cobblemon/ (private) and copied onto the data disk by config.sh before the container starts. Client: included in the Drive zip. Pinned by sha512 below.",
+    "ftblibrary": {
+        "filename": "ftb-library-fabric-2101.1.36.jar",
+        "sha512": "a7b4da3a7a6a0e04625bdbc487cf8dda81c0203ba683641265c2077a67add0ad0491da0abc2976beb9cd277c779a8293f9e5917bb1ffce2af1745c29c61fa773",
+        "source": "https://www.curseforge.com/minecraft/mc-mods/ftb-library-fabric",
+        "side": "both"
+    },
+    "ftbquests": {
+        "filename": "ftb-quests-fabric-2101.1.36.jar",
+        "sha512": "0c298e60ddb0953751c41861ce60adfa3585a3a51757e246a826e926cd2eb96ef967f066ae2d04036e3706ec93d4397e5521d7133b791590dd9871aa6f0b66eb",
+        "source": "https://www.curseforge.com/minecraft/mc-mods/ftb-quests-fabric",
+        "side": "both"
+    },
+    "ftbteams": {
+        "filename": "ftb-teams-fabric-2101.1.11.jar",
+        "sha512": "04cd51e44c3c102932804876d673cb00201ca6e36fdd224167dd09d777955e62d5d03b061be30310049c6b7a676c0a82ed581082072073ea8e5ca68101233fb7",
+        "source": "https://www.curseforge.com/minecraft/mc-mods/ftb-teams-fabric",
+        "side": "both"
+    },
+    "legendarysinnoh": {
+        "filename": "cobblemon-legendary-sinnoh-1.1.0.jar",
+        "sha512": "c9b5560f1a48a158ac3a838e31883658e8f530834d339d7de0ed04a1a982cd144ae1090fa95a08d4d11acd396e3cca461eb07326753e7f7c6b1f9057407c2153",
+        "source": "https://www.curseforge.com/minecraft/mc-mods/cobblemon-legendary-sinnoh",
+        "side": "both"
+    },
+    "cobblemonrelics": {
+        "filename": "cobblemon-relics-1.0.157.jar",
+        "sha512": "e795a49f0e37b76b028371ab77ec099f4da5172e96919d481076f29393963c1d4a8092a6c8b544888a42146460f0f8ae6c1a2155b6d92665fc4c3bc20a1f10c6",
+        "source": "https://www.curseforge.com/minecraft/mc-mods/cobblemon-relics",
+        "side": "both"
+    }
 }

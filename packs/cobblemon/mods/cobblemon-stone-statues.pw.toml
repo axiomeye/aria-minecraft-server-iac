@@ -1,0 +1,13 @@
+name = "Cobblemon Stone Statues"
+filename = "cobblemonstonestatues-fabric-1.1.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/MTdmpNqd/versions/Tcq1kSaa/cobblemonstonestatues-fabric-1.1.jar"
+hash-format = "sha512"
+hash = "c8fdee146fd791b2cc7ab8c21de4200bb197b97228d070c52b555764534a81b53888340493ffefdb04374527b95b091f50ab73cf2df60fc51df02dafe599a4e0"
+
+[update]
+[update.modrinth]
+mod-id = "MTdmpNqd"
+version = "Tcq1kSaa"

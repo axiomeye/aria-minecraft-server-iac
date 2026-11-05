@@ -1,0 +1,13 @@
+name = "Cobblemon: Synchro Machine [Morph Play as a Pokémon]"
+filename = "synchromachine-fabric-1.8.2.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/vfc8281v/versions/S6aNWUcI/synchromachine-fabric-1.8.2.jar"
+hash-format = "sha512"
+hash = "e16cbbb6d8be6a215bb5e0b4fc62f3d5f0dd66fcef9c08063f64ffa81c58156777c1c0f7ccdf7a0d0c5aa6c25f4cf431679f3f2b359b31ef4149701c8ff2d1f3"
+
+[update]
+[update.modrinth]
+mod-id = "vfc8281v"
+version = "S6aNWUcI"
