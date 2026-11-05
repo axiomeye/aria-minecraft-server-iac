@@ -42,8 +42,13 @@ locals {
       // hitting its own -Xmx internally (no kernel OOM-killer message, no
       // autostop timer had expired yet). 9G heap leaves ~3G for OS/Docker/
       // metaspace on a 12G host, matching classic's roomier heap-vs-host ratio.
-      machine_type = "n2-custom-4-12288"
-      memory       = "9G"
+      // Raised again to 16G/12G on 2026-11-05 with the jump to 70 mods
+      // (AllTheMons x MSD, Chipped, Legendary Monuments, four structure
+      // mods): the 12G host already had ~150M free at 9G heap. Heap and host
+      // move together -- AlwaysPreTouch commits the whole heap at boot, so
+      // a bigger heap on the same host just starves off-heap memory.
+      machine_type = "n2-custom-4-16384"
+      memory       = "12G"
       // Cobblemon's ceiling: 1.8.0 (Sept 2026) still targets 1.21.1.
       mc_version = "1.21.1"
       image_tag  = "java21"
